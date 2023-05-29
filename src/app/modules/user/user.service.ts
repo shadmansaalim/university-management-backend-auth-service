@@ -2,10 +2,13 @@
 import config from '../../../config'
 import { IUser } from './user.interface'
 import { User } from './user.model'
+import { generateUserId } from './user.utils'
 
 // Function to create a user in database
 const createUser = async (user: IUser): Promise<IUser | null> => {
-  // Auto generated incremental ID
+  // Assigning Auto generated incremental User ID
+  const id = await generateUserId()
+  user.id = id
 
   // Assigning Default Password if not password
   if (!user.password) {
