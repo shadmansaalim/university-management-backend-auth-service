@@ -1,25 +1,52 @@
 // Imports
-import winston from 'winston'
 import path from 'path'
+import { createLogger, format, transports } from 'winston'
 
-const logger = winston.createLogger({
+// Destructuring
+const { combine, timestamp, label, printf, prettyPrint } = format
+
+// Custom Log Format
+const customLogFormat = printf(({ level, message, label, timestamp }: any) => {
+  // Modifying timestamp to display log in a readable format
+  const date = new Date(timestamp)
+
+  const hour = date.getHours()
+  const minutes = date.getMinutes()
+  const seconds = date.getSeconds()
+
+  return `${date.toDateString()} ${hour}:${minutes}:${seconds} [${label}] ${level}: ${message}`
+})
+
+// Success Logger
+const logger = createLogger({
   level: 'info',
-  format: winston.format.json(),
+  format: combine(
+    label({ label: 'UM' }),
+    timestamp(),
+    customLogFormat,
+    prettyPrint()
+  ),
   transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({
+    new transports.Console(),
+    new transports.File({
       filename: path.join(process.cwd(), 'logs', 'winston', 'success.log'),
       level: 'info',
     }),
   ],
 })
 
-const errorLogger = winston.createLogger({
+// Error Logger
+const errorLogger = createLogger({
   level: 'error',
-  format: winston.format.json(),
+  format: combine(
+    label({ label: 'UM' }),
+    timestamp(),
+    customLogFormat,
+    prettyPrint()
+  ),
   transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({
+    new transports.Console(),
+    new transports.File({
       filename: path.join(process.cwd(), 'logs', 'winston', 'error.log'),
       level: 'error',
     }),
