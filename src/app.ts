@@ -1,6 +1,7 @@
 // Imports
-import express, { Application, Request, Response } from 'express'
+import express, { Application } from 'express'
 import cors from 'cors'
+import globalErrorHandler from './app/middlewares/globalErrorHandler'
 
 // Application Routes
 import userRoutes from './app/modules/user/user.route'
@@ -17,9 +18,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use('/api/v1/users', userRoutes)
 
-// Hello World GET API for TESTING
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!')
-})
+// Global Error Handler
+app.use(globalErrorHandler)
 
 export default app

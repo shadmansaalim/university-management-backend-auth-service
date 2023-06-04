@@ -1,9 +1,9 @@
 // Imports
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import userService from './user.service'
 
 // Function that works when create user POST API hits
-const createUser = async (req: Request, res: Response) => {
+const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     // Destructuring user from request body
     const { user } = req.body
@@ -15,10 +15,7 @@ const createUser = async (req: Request, res: Response) => {
       data: result,
     })
   } catch (err) {
-    res.status(400).json({
-      success: false,
-      message: 'Failed to create user.',
-    })
+    next(err)
   }
 }
 
