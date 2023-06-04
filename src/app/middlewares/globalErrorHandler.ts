@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+/* eslint-disable no-unused-expressions */
+
 //Imports
 import { ErrorRequestHandler } from 'express'
 import config from '../../config'
@@ -5,9 +8,15 @@ import { IGenericErrorMessage } from '../../interfaces/error'
 import mongoose from 'mongoose'
 import handleValidationError from '../../errors/handleValidationError'
 import ApiError from '../../errors/ApiError'
+import { errorLogger } from '../../shared/logger'
 
 // Global Error Handler Function to create a specified format for different type of errors
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
+  // Consoling on development or else logging the errors
+  config.env === 'development'
+    ? console.log('globalErrorHandler ~ ', error)
+    : errorLogger.error('globalErrorHandler ~ ', error)
+
   // Initializing defaults
   let statusCode = 500
   let message = 'Something went wrong!'

@@ -1,0 +1,262 @@
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:05:56.950Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:05:56.958Z'
+}
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:08:55.170Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:08:55.180Z'
+}
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:10:10.039Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:10:10.047Z'
+}
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:10:16.684Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:10:16.692Z'
+}
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:10:30.299Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:10:30.308Z'
+}
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:13:50.722Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:13:50.731Z'
+}
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:14:51.957Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:14:51.965Z'
+}
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:15:58.179Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:15:58.192Z'
+}
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:19:30.820Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:19:30.828Z'
+}
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:21:48.682Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:21:48.688Z'
+}
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:22:39.087Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:22:39.102Z'
+}
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:24:03.102Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:24:03.107Z'
+}
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:24:08.536Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:24:08.546Z'
+}
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:24:35.736Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:24:35.744Z'
+}
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:25:31.880Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:25:31.886Z'
+}
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:31:49.131Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:31:49.139Z'
+}
+{
+  message: 'SIGTERM received',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:32:17.504Z'
+}
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:34:45.746Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:34:45.755Z'
+}
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:36:55.954Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:36:55.967Z'
+}
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:40:16.336Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:40:16.348Z'
+}
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:40:59.664Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:40:59.671Z'
+}
+{
+  message: 'SIGTERM received',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T16:41:35.832Z'
+}
+Sun Jun 04 2023 22:44:5 [UM] info: Database connection successful
+Sun Jun 04 2023 22:44:5 [UM] info: Server is listening on port 3000
+Sun Jun 04 2023 22:45:39 [UM] info: Database connection successful
+Sun Jun 04 2023 22:45:39 [UM] info: Server is listening on port 3000
+Sun Jun 04 2023 22:47:35 [UM] info: SIGTERM received
+Sun Jun 04 2023 22:48:2 [UM] info: Database connection successful
+Sun Jun 04 2023 22:48:2 [UM] info: Server is listening on port 3000
+Sun Jun 04 2023 22:49:32 [UM] info: Database connection successful
+Sun Jun 04 2023 22:49:32 [UM] info: Server is listening on port 3000
+Sun Jun 04 2023 22:49:42 [UM] info: SIGTERM received

@@ -10,3 +10,27 @@
   label: 'UM',
   timestamp: '2023-06-04T15:46:17.162Z'
 }
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T15:56:46.345Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T15:56:46.353Z'
+}
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T15:59:37.056Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T15:59:37.064Z'
+}
