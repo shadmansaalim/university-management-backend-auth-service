@@ -26,7 +26,7 @@ const createUser = async (user: IUser): Promise<IUser | null> => {
   return createdUser
 }
 
-// Exporting all functions from service file
-export default {
+// Exporting all functions of user related from service file
+export const UserService = {
   createUser,
 }

@@ -1,0 +1,12 @@
+{
+  message: 'Database connection successful',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T15:46:17.149Z'
+}
+{
+  message: 'Server is listening on port 3000',
+  level: 'info',
+  label: 'UM',
+  timestamp: '2023-06-04T15:46:17.162Z'
+}
