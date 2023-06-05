@@ -1,16 +1,44 @@
 /* eslint-disable no-console */
 /* eslint-disable no-unused-expressions */
+/* eslint-disable no-unused-vars */
 
 //Imports
 import { ErrorRequestHandler } from 'express';
 import config from '../../config';
 import { IGenericErrorMessage } from '../../interfaces/error';
-import mongoose from 'mongoose';
 import handleValidationError from '../../errors/handleValidationError';
-import ApiError from '../../errors/ApiError';
 import { errorLogger } from '../../shared/logger';
-import { ZodError } from 'zod';
 import handleZodError from '../../errors/handleZodError';
+
+// Initializing defaults
+let statusCode = 500;
+let message = 'Something went wrong!';
+let errorMessages: Array<IGenericErrorMessage> = [];
+
+// Handling different type of errors
+
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
+const errorHandlers: Record<string, (error: any) => void> = {
+  ValidationError: function (error) {
+    const formattedError = handleValidationError(error);
+    // Destructuring
+    ({ statusCode, message, errorMessages } = formattedError);
+  },
+  ZodError: function (error) {
+    const formattedError = handleZodError(error);
+    // Destructuring
+    ({ statusCode, message, errorMessages } = formattedError);
+  },
+  ApiError: function (error) {
+    statusCode = error?.statusCode;
+    message = error?.message;
+    errorMessages = error?.message ? [{ path: '', message: message }] : [];
+  },
+  Error: function (error) {
+    message = error?.message;
+    errorMessages = error?.message ? [{ path: '', message: message }] : [];
+  },
+};
 
 // Global Error Handler Function to create a specified format for different type of errors
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
@@ -19,34 +47,8 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     ? console.log('globalErrorHandler ~ ', error)
     : errorLogger.error('globalErrorHandler ~ ', error);
 
-  // Initializing defaults
-  let statusCode = 500;
-  let message = 'Something went wrong!';
-  let errorMessages: Array<IGenericErrorMessage> = [];
-
-  // Handle Mongoose validation error
-  if (error instanceof mongoose.Error.ValidationError) {
-    const formattedError = handleValidationError(error);
-    // Destructuring
-    ({ statusCode, message, errorMessages } = formattedError);
-  }
-  // Handle ZOD Error
-  else if (error instanceof ZodError) {
-    const formattedError = handleZodError(error);
-    // Destructuring
-    ({ statusCode, message, errorMessages } = formattedError);
-  }
-  // Handle errors that are instances of our custom ApiError class
-  else if (error instanceof ApiError) {
-    statusCode = error?.statusCode;
-    message = error?.message;
-    errorMessages = error?.message ? [{ path: '', message: message }] : [];
-  }
-  // Handle regular errors that are instances of Error
-  else if (error instanceof Error) {
-    message = error?.message;
-    errorMessages = error?.message ? [{ path: '', message: message }] : [];
-  }
+  // Calling the function from the object to handle the error after evaluating type
+  errorHandlers[error.constructor.name](error);
 
   res.status(statusCode).json({
     success: false,
