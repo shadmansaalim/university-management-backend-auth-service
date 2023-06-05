@@ -1,8 +1,14 @@
 //Imports
 import { Model } from 'mongoose';
 
+// Title type
+export type IAcademicSemesterTitles = 'Autumn' | 'Summer' | 'Fall';
+
+// Code type
+export type IAcademicSemesterCodes = '01' | '02' | '03';
+
 // Month type
-type Month =
+export type IAcademicSemesterMonths =
   | 'January'
   | 'February'
   | 'March'
@@ -18,11 +24,11 @@ type Month =
 
 // Academic Semester Interface
 export type IAcademicSemester = {
-  title: 'Autumn' | 'Summer' | 'Fall';
+  title: IAcademicSemesterTitles;
   year: number;
-  code: '01' | '02' | '03';
-  startMonth: Month;
-  endMonth: Month;
+  code: IAcademicSemesterCodes;
+  startMonth: IAcademicSemesterMonths;
+  endMonth: IAcademicSemesterMonths;
 };
 
 // Academic Semester Model Type
