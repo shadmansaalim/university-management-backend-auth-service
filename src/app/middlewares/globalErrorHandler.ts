@@ -9,6 +9,8 @@ import mongoose from 'mongoose'
 import handleValidationError from '../../errors/handleValidationError'
 import ApiError from '../../errors/ApiError'
 import { errorLogger } from '../../shared/logger'
+import { ZodError } from 'zod'
+import handleZodError from '../../errors/handleZodError'
 
 // Global Error Handler Function to create a specified format for different type of errors
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
@@ -22,9 +24,15 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   let message = 'Something went wrong!'
   let errorMessages: Array<IGenericErrorMessage> = []
 
-  // Handle validation error
+  // Handle Mongoose validation error
   if (error instanceof mongoose.Error.ValidationError) {
     const formattedError = handleValidationError(error)
+    // Destructuring
+    ;({ statusCode, message, errorMessages } = formattedError)
+  }
+  // Handle ZOD Error
+  else if (error instanceof ZodError) {
+    const formattedError = handleZodError(error)
     // Destructuring
     ;({ statusCode, message, errorMessages } = formattedError)
   }
