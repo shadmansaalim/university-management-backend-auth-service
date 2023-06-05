@@ -1,5 +1,5 @@
 // Imports
-import { z } from 'zod'
+import { z } from 'zod';
 
 // Validation of API request using ZOD
 const createUserZodSchema = z.object({
@@ -9,8 +9,8 @@ const createUserZodSchema = z.object({
     }),
     password: z.string().optional(),
   }),
-})
+});
 
 export const UserValidation = {
   createUserZodSchema,
-}
+};

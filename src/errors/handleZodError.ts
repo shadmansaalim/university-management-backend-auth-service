@@ -1,7 +1,7 @@
 //Imports
-import { IGenericErrorResponse } from '../interfaces/common'
-import { IGenericErrorMessage } from '../interfaces/error'
-import { ZodError, ZodIssue } from 'zod'
+import { IGenericErrorResponse } from '../interfaces/common';
+import { IGenericErrorMessage } from '../interfaces/error';
+import { ZodError, ZodIssue } from 'zod';
 
 // ZOD Error handling function
 const handleZodError = (error: ZodError): IGenericErrorResponse => {
@@ -9,16 +9,16 @@ const handleZodError = (error: ZodError): IGenericErrorResponse => {
     return {
       path: issue?.path[issue.path.length - 1],
       message: issue?.message,
-    }
-  })
+    };
+  });
 
-  const statusCode = 400
+  const statusCode = 400;
 
   return {
     statusCode,
     message: 'ZOD Error',
     errorMessages: errors,
-  }
-}
+  };
+};
 
-export default handleZodError
+export default handleZodError;

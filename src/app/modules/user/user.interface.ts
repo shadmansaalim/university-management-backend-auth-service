@@ -1,12 +1,12 @@
 //Imports
-import { Model } from 'mongoose'
+import { Model } from 'mongoose';
 
 // User Interface
 export type IUser = {
-  id: string
-  role: string
-  password: string
-}
+  id: string;
+  role: string;
+  password: string;
+};
 
 // User Model Type
-export type UserModel = Model<IUser, object>
+export type UserModel = Model<IUser, object>;

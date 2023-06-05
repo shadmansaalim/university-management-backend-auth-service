@@ -1,6 +1,6 @@
 // Imports
-import { AnyZodObject } from 'zod'
-import { NextFunction, Request, Response } from 'express'
+import { AnyZodObject } from 'zod';
+import { NextFunction, Request, Response } from 'express';
 
 // Checks ZOD Validation of Request before sending to controller
 const validateRequest =
@@ -12,12 +12,12 @@ const validateRequest =
         query: req.query,
         params: req.params,
         cookies: req.cookies,
-      })
+      });
 
-      next()
+      next();
     } catch (error) {
-      next(error)
+      next(error);
     }
-  }
+  };
 
-export default validateRequest
+export default validateRequest;

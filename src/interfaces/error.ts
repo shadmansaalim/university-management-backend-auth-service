@@ -1,5 +1,5 @@
 // Generic error message type
 export type IGenericErrorMessage = {
-  path: string | number
-  message: string
-}
+  path: string | number;
+  message: string;
+};
