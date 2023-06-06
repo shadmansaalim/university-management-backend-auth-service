@@ -29,8 +29,16 @@ const Months: IAcademicSemesterMonths[] = [
   'December',
 ];
 
+// Mapping title and code to create a relation
+const TitleCodeMapper: { [key: string]: string } = {
+  Autumn: '01',
+  Summer: '02',
+  Fall: '03',
+};
+
 export const AcademicSemesterConstants = {
   Titles,
   Codes,
   Months,
+  TitleCodeMapper,
 };
