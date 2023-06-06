@@ -2,6 +2,7 @@
 import { Request, Response, NextFunction } from 'express';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
+import { IAcademicSemester } from './academicSemester.interface';
 import { AcademicSemesterService } from './academicSemester.service';
 
 // Function that works when create academic semester POST API hits
@@ -16,7 +17,7 @@ const createSemester = catchAsync(
     next();
 
     // Sending API Response
-    sendResponse(res, {
+    sendResponse<IAcademicSemester>(res, {
       statusCode: 200,
       success: true,
       message: 'Academic Semester created successfully.',
