@@ -9,9 +9,10 @@ import { IGenericErrorMessage } from '../../interfaces/error';
 import handleValidationError from '../../errors/handleValidationError';
 import { errorLogger } from '../../shared/logger';
 import handleZodError from '../../errors/handleZodError';
+import httpStatus from 'http-status';
 
 // Initializing defaults
-let statusCode = 500;
+let statusCode: number = httpStatus.INTERNAL_SERVER_ERROR;
 let message = 'Something went wrong!';
 let errorMessages: Array<IGenericErrorMessage> = [];
 

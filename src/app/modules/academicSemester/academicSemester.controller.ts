@@ -4,6 +4,7 @@ import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { IAcademicSemester } from './academicSemester.interface';
 import { AcademicSemesterService } from './academicSemester.service';
+import httpStatus from 'http-status';
 
 // Function that works when create academic semester POST API hits
 const createSemester = catchAsync(
@@ -18,7 +19,7 @@ const createSemester = catchAsync(
 
     // Sending API Response
     sendResponse<IAcademicSemester>(res, {
-      statusCode: 200,
+      statusCode: httpStatus.OK,
       success: true,
       message: 'Academic Semester created successfully.',
       data: result,

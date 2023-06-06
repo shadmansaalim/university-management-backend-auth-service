@@ -7,7 +7,7 @@ const catchAsync = (func: RequestHandler) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       // Calling the controller function
-      func(req, res, next);
+      await func(req, res, next);
     } catch (error) {
       next(error);
     }
