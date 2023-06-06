@@ -1,23 +1,27 @@
 // Imports
-import { RequestHandler } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { UserService } from './user.service';
+import catchAsync from '../../../shared/catchAsync';
+import sendResponse from '../../../shared/sendResponse';
 
 // Function that works when create user POST API hits
-const createUser: RequestHandler = async (req, res, next) => {
-  try {
+const createUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
     // Destructuring user from request body
     const { user } = req.body;
     const result = await UserService.createUser(user);
 
-    res.status(200).json({
+    next();
+
+    // Sending API Response
+    sendResponse(res, {
+      statusCode: 200,
       success: true,
       message: 'User created successfully.',
       data: result,
     });
-  } catch (error) {
-    next(error);
   }
-};
+);
 
 export const UserController = {
   createUser,

@@ -1,25 +1,29 @@
 // Imports
-import { RequestHandler } from 'express';
+import { Request, Response, NextFunction } from 'express';
+import catchAsync from '../../../shared/catchAsync';
+import sendResponse from '../../../shared/sendResponse';
 import { AcademicSemesterService } from './academicSemester.service';
 
 // Function that works when create academic semester POST API hits
-const createSemester: RequestHandler = async (req, res, next) => {
-  try {
+const createSemester = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
     // Destructuring Academic Semester data from request body
     const { ...academicSemesterData } = req.body;
     const result = await AcademicSemesterService.createSemester(
       academicSemesterData
     );
 
-    res.status(200).json({
+    next();
+
+    // Sending API Response
+    sendResponse(res, {
+      statusCode: 200,
       success: true,
       message: 'Academic Semester created successfully.',
       data: result,
     });
-  } catch (error) {
-    next(error);
   }
-};
+);
 
 export const AcademicSemesterController = {
   createSemester,
