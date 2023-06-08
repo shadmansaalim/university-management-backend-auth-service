@@ -1,13 +1,11 @@
-/* eslint-disable no-unused-vars */
-
 // Imports
 import { IAcademicSemester } from './academicSemester.interface';
 import { AcademicSemester } from './academicSemester.model';
 import { AcademicSemesterConstants } from './academicSemester.constant';
 import ApiError from '../../../errors/ApiError';
 import { IPaginationOptions } from '../../../interfaces/pagination';
-import { PaginationConstants } from '../../../constants/pagination';
 import { IGenericResponse } from '../../../interfaces/common';
+import { PaginationHelpers } from '../../../helpers/paginationHelper';
 
 // Create Semester Function
 const createSemester = async (
@@ -29,13 +27,8 @@ const getAllSemesters = async (
   paginationOptions: IPaginationOptions
 ): Promise<IGenericResponse<IAcademicSemester[]>> => {
   // Destructuring
-  const {
-    page = PaginationConstants.DEFAULT_PAGE,
-    limit = PaginationConstants.DEFAULT_LIMIT,
-  } = paginationOptions;
-
-  // Number of data (semesters) to skip
-  const skip = (page - 1) * limit;
+  const { page, limit, skip } =
+    PaginationHelpers.calculatePagination(paginationOptions);
 
   // Semesters
   const result = await AcademicSemester.find().sort().skip(skip).limit(limit);
