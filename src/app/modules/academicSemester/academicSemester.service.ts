@@ -6,6 +6,7 @@ import ApiError from '../../../errors/ApiError';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { IGenericResponse } from '../../../interfaces/common';
 import { PaginationHelpers } from '../../../helpers/paginationHelper';
+import { SortOrder } from 'mongoose';
 
 // Create Semester Function
 const createSemester = async (
@@ -27,11 +28,22 @@ const getAllSemesters = async (
   paginationOptions: IPaginationOptions
 ): Promise<IGenericResponse<IAcademicSemester[]>> => {
   // Destructuring
-  const { page, limit, skip } =
+  const { page, limit, sortBy, sortOrder, skip } =
     PaginationHelpers.calculatePagination(paginationOptions);
 
+  // Default Sorting Condition
+  const sortingCondition: { [key: string]: SortOrder } = {};
+
+  // Adding sort condition if requested
+  if (sortBy && sortOrder) {
+    sortingCondition[sortBy] = sortOrder;
+  }
+
   // Semesters
-  const result = await AcademicSemester.find().sort().skip(skip).limit(limit);
+  const result = await AcademicSemester.find()
+    .sort(sortingCondition)
+    .skip(skip)
+    .limit(limit);
 
   // Total Semester Documents in Database
   const total = await AcademicSemester.countDocuments();
