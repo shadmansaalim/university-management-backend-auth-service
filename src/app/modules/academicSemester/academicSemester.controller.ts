@@ -27,6 +27,35 @@ const createSemester = catchAsync(
   }
 );
 
+// Function to GET Academic Semesters
+const getAllSemesters = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    // Making a pagination options object
+    const paginationOptions = {
+      page: Number(req?.query?.page),
+      limit: Number(req?.query?.limit),
+      sortBy: String(req?.query?.sortBy),
+      sortOrder: String(req?.query?.sortOrder),
+    };
+
+    // Getting all semesters based on request
+    const result = await AcademicSemesterService.getAllSemesters(
+      paginationOptions
+    );
+
+    // Sending API Response
+    sendResponse<IAcademicSemester[]>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Academic Semesters retrieved successfully.',
+      data: result,
+    });
+
+    next();
+  }
+);
+
 export const AcademicSemesterController = {
   createSemester,
+  getAllSemesters,
 };

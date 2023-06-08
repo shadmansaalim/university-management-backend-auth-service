@@ -1,8 +1,11 @@
+/* eslint-disable no-unused-vars */
+
 // Imports
 import { IAcademicSemester } from './academicSemester.interface';
 import { AcademicSemester } from './academicSemester.model';
 import { AcademicSemesterConstants } from './academicSemester.constant';
 import ApiError from '../../../errors/ApiError';
+import { IPaginationOptions } from '../../../interfaces/pagination';
 
 // Create Semester Function
 const createSemester = async (
@@ -19,6 +22,15 @@ const createSemester = async (
   return result;
 };
 
+// GET Semesters Function
+const getAllSemesters = async (
+  paginationOptions: IPaginationOptions
+): Promise<IAcademicSemester[]> => {
+  // Returning empty array now but will remove later
+  return [];
+};
+
 export const AcademicSemesterService = {
   createSemester,
+  getAllSemesters,
 };
