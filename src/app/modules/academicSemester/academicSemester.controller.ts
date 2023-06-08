@@ -15,8 +15,6 @@ const createSemester = catchAsync(
       academicSemesterData
     );
 
-    next();
-
     // Sending API Response
     sendResponse<IAcademicSemester>(res, {
       statusCode: httpStatus.OK,
@@ -24,6 +22,8 @@ const createSemester = catchAsync(
       message: 'Academic Semester created successfully.',
       data: result,
     });
+
+    next();
   }
 );
 

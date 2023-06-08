@@ -45,7 +45,7 @@ const errorHandlers: Record<string, (error: any) => void> = {
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   // Consoling on development or else logging the errors
   config.env === 'development'
-    ? console.log('globalErrorHandler ~ ', error)
+    ? console.log('Global Error Handler : ', error)
     : errorLogger.error('globalErrorHandler ~ ', error);
 
   // Calling the function from the object to handle the error after evaluating type
