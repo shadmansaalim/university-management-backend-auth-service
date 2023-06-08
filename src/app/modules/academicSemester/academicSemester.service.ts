@@ -6,6 +6,7 @@ import { AcademicSemester } from './academicSemester.model';
 import { AcademicSemesterConstants } from './academicSemester.constant';
 import ApiError from '../../../errors/ApiError';
 import { IPaginationOptions } from '../../../interfaces/pagination';
+import { PaginationConstants } from '../../../constants/pagination';
 
 // Create Semester Function
 const createSemester = async (
@@ -26,6 +27,10 @@ const createSemester = async (
 const getAllSemesters = async (
   paginationOptions: IPaginationOptions
 ): Promise<IAcademicSemester[]> => {
+  const {
+    page = PaginationConstants.DEFAULT_PAGE,
+    limit = PaginationConstants.DEFAULT_LIMIT,
+  } = paginationOptions;
   // Returning empty array now but will remove later
   return [];
 };
