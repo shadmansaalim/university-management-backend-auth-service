@@ -7,6 +7,7 @@ import { AcademicSemesterService } from './academicSemester.service';
 import httpStatus from 'http-status';
 import pick from '../../../shared/pick';
 import { PaginationConstants } from '../../../constants/pagination';
+import { IGenericResponse } from '../../../interfaces/common';
 
 // Function that works when create academic semester POST API hits
 const createSemester = catchAsync(
@@ -41,7 +42,7 @@ const getAllSemesters = catchAsync(
     );
 
     // Sending API Response
-    sendResponse<IAcademicSemester[]>(res, {
+    sendResponse<IGenericResponse<IAcademicSemester[]>>(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'Academic Semesters retrieved successfully.',

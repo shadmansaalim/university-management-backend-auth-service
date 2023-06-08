@@ -7,6 +7,7 @@ import { AcademicSemesterConstants } from './academicSemester.constant';
 import ApiError from '../../../errors/ApiError';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { PaginationConstants } from '../../../constants/pagination';
+import { IGenericResponse } from '../../../interfaces/common';
 
 // Create Semester Function
 const createSemester = async (
@@ -26,13 +27,30 @@ const createSemester = async (
 // GET Semesters Function
 const getAllSemesters = async (
   paginationOptions: IPaginationOptions
-): Promise<IAcademicSemester[]> => {
+): Promise<IGenericResponse<IAcademicSemester[]>> => {
+  // Destructuring
   const {
     page = PaginationConstants.DEFAULT_PAGE,
     limit = PaginationConstants.DEFAULT_LIMIT,
   } = paginationOptions;
-  // Returning empty array now but will remove later
-  return [];
+
+  // Number of data (semesters) to skip
+  const skip = (page - 1) * limit;
+
+  // Semesters
+  const result = await AcademicSemester.find().sort().skip(skip).limit(limit);
+
+  // Total Semester Documents in Database
+  const total = await AcademicSemester.countDocuments();
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
 };
 
 export const AcademicSemesterService = {
