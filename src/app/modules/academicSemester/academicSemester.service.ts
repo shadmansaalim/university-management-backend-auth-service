@@ -34,12 +34,12 @@ const getAllSemesters = async (
   // Destructuring ~ Searching and Filtering
   const { searchTerm, ...filterData } = filters;
 
-  // Condition for finding semesters
-  const findConditions = [];
+  // Storing all searching and filtering condition in this array
+  const searchFilterConditions = [];
 
   // Checking if SEARCH is requested in GET API - adding find conditions
   if (searchTerm) {
-    findConditions.push({
+    searchFilterConditions.push({
       $or: AcademicSemesterConstants.searchableFields.map(field => ({
         [field]: {
           $regex: searchTerm,
@@ -51,7 +51,7 @@ const getAllSemesters = async (
 
   // Checking if FILTER is requested in GET API - adding find conditions
   if (Object.keys(filterData).length) {
-    findConditions.push({
+    searchFilterConditions.push({
       $and: Object.entries(filterData).map(([field, value]) => ({
         [field]: value,
       })),
@@ -70,8 +70,13 @@ const getAllSemesters = async (
     sortingCondition[sortBy] = sortOrder;
   }
 
+  // Condition for finding semesters
+  const findConditions = searchFilterConditions.length
+    ? { $and: searchFilterConditions }
+    : {};
+
   // Semesters
-  const result = await AcademicSemester.find({ $and: findConditions })
+  const result = await AcademicSemester.find(findConditions)
     .sort(sortingCondition)
     .skip(skip)
     .limit(limit);
