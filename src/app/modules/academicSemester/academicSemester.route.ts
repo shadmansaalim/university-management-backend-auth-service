@@ -8,12 +8,14 @@ import { AcademicSemesterController } from './academicSemester.controller';
 const router = express.Router();
 
 // API Endpoints
+router.get('/:id', AcademicSemesterController.getSingleSemester);
+
+router.get('/', AcademicSemesterController.getAllSemesters);
+
 router.post(
   '/create-academic-semester',
   validateRequest(AcademicSemesterValidation.createAcademicSemesterZodSchema),
   AcademicSemesterController.createSemester
 );
-
-router.get('/', AcademicSemesterController.getAllSemesters);
 
 export const AcademicSemesterRoutes = router;

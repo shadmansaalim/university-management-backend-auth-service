@@ -30,7 +30,7 @@ const createSemester = catchAsync(
   }
 );
 
-// Function to GET Academic Semesters
+// Function to GET All Academic Semesters
 const getAllSemesters = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     // Making a filter options object
@@ -58,7 +58,27 @@ const getAllSemesters = catchAsync(
   }
 );
 
+// Function to GET Single Academic Semesters
+const getSingleSemester = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    // Getting semester id from params
+    const id = req.params.id;
+    const result = await AcademicSemesterService.getSingleSemester(id);
+
+    // Sending API Response
+    sendResponse<IAcademicSemester>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Single Academic Semester retrieved successfully.',
+      data: result,
+    });
+
+    next();
+  }
+);
+
 export const AcademicSemesterController = {
   createSemester,
   getAllSemesters,
+  getSingleSemester,
 };
