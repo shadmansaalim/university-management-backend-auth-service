@@ -7,6 +7,7 @@ import { AcademicSemesterService } from './academicSemester.service';
 import httpStatus from 'http-status';
 import pick from '../../../shared/pick';
 import { PaginationConstants } from '../../../constants/pagination';
+import { AcademicSemesterConstants } from './academicSemester.constant';
 
 // Function that works when create academic semester POST API hits
 const createSemester = catchAsync(
@@ -33,7 +34,7 @@ const createSemester = catchAsync(
 const getAllSemesters = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     // Making a filter options object
-    const filters = pick(req.query, ['searchTerm']);
+    const filters = pick(req.query, AcademicSemesterConstants.filterableFields);
 
     // Making a pagination options object
     const paginationOptions = pick(req.query, PaginationConstants.fields);

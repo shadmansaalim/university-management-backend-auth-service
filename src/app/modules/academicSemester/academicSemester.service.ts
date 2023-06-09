@@ -32,20 +32,28 @@ const getAllSemesters = async (
   paginationOptions: IPaginationOptions
 ): Promise<IGenericResponse<IAcademicSemester[]>> => {
   // Destructuring ~ Searching and Filtering
-  const { searchTerm } = filters;
+  const { searchTerm, ...filterData } = filters;
 
-  // Search Conditions - Allowing search with title, year and code
-  const academicSemesterSearchableFields = ['title', 'year', 'code'];
-  const searchConditions = [];
+  // Condition for finding semesters
+  const findConditions = [];
 
-  // If searching requested in GET API - adding search conditions
+  // Checking if SEARCH is requested in GET API - adding find conditions
   if (searchTerm) {
-    searchConditions.push({
-      $or: academicSemesterSearchableFields.map(field => ({
+    findConditions.push({
+      $or: AcademicSemesterConstants.searchableFields.map(field => ({
         [field]: {
           $regex: searchTerm,
           $options: 'i',
         },
+      })),
+    });
+  }
+
+  // Checking if FILTER is requested in GET API - adding find conditions
+  if (Object.keys(filterData).length) {
+    findConditions.push({
+      $and: Object.entries(filterData).map(([field, value]) => ({
+        [field]: value,
       })),
     });
   }
@@ -63,7 +71,7 @@ const getAllSemesters = async (
   }
 
   // Semesters
-  const result = await AcademicSemester.find({ $and: searchConditions })
+  const result = await AcademicSemester.find({ $and: findConditions })
     .sort(sortingCondition)
     .skip(skip)
     .limit(limit);

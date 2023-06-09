@@ -36,9 +36,17 @@ const TitleCodeMapper: { [key: string]: string } = {
   Fall: '03',
 };
 
+// Searching and Filtering  Fields
+const filterableFields = ['searchTerm', 'title', 'year', 'code'];
+
+// Searchable fields to GET academic semesters
+const searchableFields = ['title', 'year', 'code'];
+
 export const AcademicSemesterConstants = {
   Titles,
   Codes,
   Months,
   TitleCodeMapper,
+  filterableFields,
+  searchableFields,
 };
