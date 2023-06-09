@@ -35,10 +35,6 @@ const errorHandlers: Record<string, (error: any) => void> = {
     message = error?.message;
     errorMessages = error?.message ? [{ path: '', message: message }] : [];
   },
-  Error: function (error) {
-    message = error?.message;
-    errorMessages = error?.message ? [{ path: '', message: message }] : [];
-  },
 };
 
 // Global Error Handler Function to create a specified format for different type of errors
@@ -48,8 +44,14 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     ? console.log('Global Error Handler : ', error)
     : errorLogger.error('globalErrorHandler ~ ', error);
 
-  // Calling the function from the object to handle the error after evaluating type
-  errorHandlers[error.constructor.name](error);
+  // Checked whether error type is in our Error Handler Object otherwise handled as generic error
+  if (Object.hasOwnProperty.call(errorHandlers, error.constructor.name)) {
+    // Calling the function from the object to handle the error after evaluating type
+    errorHandlers[error.constructor.name](error);
+  } else {
+    message = error?.message;
+    errorMessages = error?.message ? [{ path: '', message: message }] : [];
+  }
 
   res.status(statusCode).json({
     success: false,
