@@ -25,7 +25,7 @@ export type IAcademicSemesterMonths =
 // Academic Semester Interface
 export type IAcademicSemester = {
   title: IAcademicSemesterTitles;
-  year: number;
+  year: string;
   code: IAcademicSemesterCodes;
   startMonth: IAcademicSemesterMonths;
   endMonth: IAcademicSemesterMonths;
@@ -33,3 +33,8 @@ export type IAcademicSemester = {
 
 // Academic Semester Model Type
 export type AcademicSemesterModel = Model<IAcademicSemester>;
+
+// Academic Semester Filters Type
+export type IAcademicSemesterFilters = {
+  searchTerm?: string;
+};

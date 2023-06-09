@@ -1,5 +1,8 @@
 // Imports
-import { IAcademicSemester } from './academicSemester.interface';
+import {
+  IAcademicSemester,
+  IAcademicSemesterFilters,
+} from './academicSemester.interface';
 import { AcademicSemester } from './academicSemester.model';
 import { AcademicSemesterConstants } from './academicSemester.constant';
 import ApiError from '../../../errors/ApiError';
@@ -25,9 +28,29 @@ const createSemester = async (
 
 // GET Semesters Function
 const getAllSemesters = async (
+  filters: IAcademicSemesterFilters,
   paginationOptions: IPaginationOptions
 ): Promise<IGenericResponse<IAcademicSemester[]>> => {
-  // Destructuring
+  // Destructuring ~ Searching and Filtering
+  const { searchTerm } = filters;
+
+  // Search Conditions - Allowing search with title, year and code
+  const academicSemesterSearchableFields = ['title', 'year', 'code'];
+  const searchConditions = [];
+
+  // If searching requested in GET API - adding search conditions
+  if (searchTerm) {
+    searchConditions.push({
+      $or: academicSemesterSearchableFields.map(field => ({
+        [field]: {
+          $regex: searchTerm,
+          $options: 'i',
+        },
+      })),
+    });
+  }
+
+  // Destructuring ~ Pagination and Sorting
   const { page, limit, sortBy, sortOrder, skip } =
     PaginationHelpers.calculatePagination(paginationOptions);
 
@@ -40,7 +63,7 @@ const getAllSemesters = async (
   }
 
   // Semesters
-  const result = await AcademicSemester.find()
+  const result = await AcademicSemester.find({ $and: searchConditions })
     .sort(sortingCondition)
     .skip(skip)
     .limit(limit);
