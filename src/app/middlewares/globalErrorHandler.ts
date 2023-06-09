@@ -5,43 +5,8 @@
 //Imports
 import { ErrorRequestHandler } from 'express';
 import config from '../../config';
-import { IGenericErrorMessage } from '../../interfaces/error';
-import handleValidationError from '../../errors/handleValidationError';
+import { errorHandlerHelper } from '../../helpers/errorHandlerHelper';
 import { errorLogger } from '../../shared/logger';
-import handleZodError from '../../errors/handleZodError';
-import httpStatus from 'http-status';
-import handleCastError from '../../errors/handleCastError';
-
-// Initializing defaults
-let statusCode: number = httpStatus.INTERNAL_SERVER_ERROR;
-let message = 'Something went wrong!';
-let errorMessages: Array<IGenericErrorMessage> = [];
-
-// Handling different type of errors
-
-// eslint-disable-next-line  @typescript-eslint/no-explicit-any
-const errorHandlers: Record<string, (error: any) => void> = {
-  ValidationError: function (error) {
-    const formattedError = handleValidationError(error);
-    // Destructuring
-    ({ statusCode, message, errorMessages } = formattedError);
-  },
-  ZodError: function (error) {
-    const formattedError = handleZodError(error);
-    // Destructuring
-    ({ statusCode, message, errorMessages } = formattedError);
-  },
-  ApiError: function (error) {
-    statusCode = error?.statusCode;
-    message = error?.message;
-    errorMessages = error?.message ? [{ path: '', message: message }] : [];
-  },
-  CastError: function (error) {
-    const formattedError = handleCastError(error);
-    // Destructuring
-    ({ statusCode, message, errorMessages } = formattedError);
-  },
-};
 
 // Global Error Handler Function to create a specified format for different type of errors
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
@@ -50,10 +15,14 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     ? console.log('Global Error Handler : ', error)
     : errorLogger.error('globalErrorHandler ~ ', error);
 
+  // Destructuring
+  const { statusCode, errorLists } = errorHandlerHelper;
+  let { message, errorMessages } = errorHandlerHelper;
+
   // Checked whether error type is in our Error Handler Object otherwise handled as generic error
-  if (Object.hasOwnProperty.call(errorHandlers, error.constructor.name)) {
+  if (Object.hasOwnProperty.call(errorLists, error.constructor.name)) {
     // Calling the function from the object to handle the error after evaluating type
-    errorHandlers[error.constructor.name](error);
+    errorLists[error.constructor.name](error);
   } else {
     message = error?.message;
     errorMessages = error?.message ? [{ path: '', message: message }] : [];
