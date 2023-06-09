@@ -10,6 +10,7 @@ import handleValidationError from '../../errors/handleValidationError';
 import { errorLogger } from '../../shared/logger';
 import handleZodError from '../../errors/handleZodError';
 import httpStatus from 'http-status';
+import handleCastError from '../../errors/handleCastError';
 
 // Initializing defaults
 let statusCode: number = httpStatus.INTERNAL_SERVER_ERROR;
@@ -34,6 +35,11 @@ const errorHandlers: Record<string, (error: any) => void> = {
     statusCode = error?.statusCode;
     message = error?.message;
     errorMessages = error?.message ? [{ path: '', message: message }] : [];
+  },
+  CastError: function (error) {
+    const formattedError = handleCastError(error);
+    // Destructuring
+    ({ statusCode, message, errorMessages } = formattedError);
   },
 };
 
