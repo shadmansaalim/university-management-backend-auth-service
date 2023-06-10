@@ -8,13 +8,13 @@ import {
 /* Constants for Academic Semester Module */
 
 // Titles
-const Titles: IAcademicSemesterTitles[] = ['Autumn', 'Summer', 'Fall'];
+const titles: IAcademicSemesterTitles[] = ['Autumn', 'Summer', 'Fall'];
 
 // Codes
-const Codes: IAcademicSemesterCodes[] = ['01', '02', '03'];
+const codes: IAcademicSemesterCodes[] = ['01', '02', '03'];
 
 // Months
-const Months: IAcademicSemesterMonths[] = [
+const months: IAcademicSemesterMonths[] = [
   'January',
   'February',
   'March',
@@ -30,7 +30,7 @@ const Months: IAcademicSemesterMonths[] = [
 ];
 
 // Mapping title and code to create a relation
-const TitleCodeMapper: { [key: string]: string } = {
+const titleCodeMapper: { [key: string]: string } = {
   Autumn: '01',
   Summer: '02',
   Fall: '03',
@@ -43,10 +43,10 @@ const filterableFields = ['searchTerm', 'title', 'year', 'code'];
 const searchableFields = ['title', 'year', 'code'];
 
 export const AcademicSemesterConstants = {
-  Titles,
-  Codes,
-  Months,
-  TitleCodeMapper,
+  titles,
+  codes,
+  months,
+  titleCodeMapper,
   filterableFields,
   searchableFields,
 };

@@ -10,6 +10,7 @@ import { IPaginationOptions } from '../../../interfaces/pagination';
 import { IGenericResponse } from '../../../interfaces/common';
 import { PaginationHelpers } from '../../../helpers/paginationHelper';
 import { SortOrder } from 'mongoose';
+import httpStatus from 'http-status';
 
 // Create Semester Function
 const createSemester = async (
@@ -17,9 +18,12 @@ const createSemester = async (
 ): Promise<IAcademicSemester> => {
   // Checking whether the format of payload is following the relation consistency of Title and Code
   if (
-    payload?.code !== AcademicSemesterConstants.TitleCodeMapper[payload?.title]
+    payload?.code !== AcademicSemesterConstants.titleCodeMapper[payload?.title]
   ) {
-    throw new ApiError(400, 'Invalid Semester Code Provided');
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'Invalid Semester Code Provided'
+    );
   }
 
   const result = await AcademicSemester.create(payload);
@@ -111,9 +115,12 @@ const updateSingleSemester = async (
   if (
     payload?.title &&
     payload?.code &&
-    payload?.code !== AcademicSemesterConstants.TitleCodeMapper[payload?.title]
+    payload?.code !== AcademicSemesterConstants.titleCodeMapper[payload?.title]
   ) {
-    throw new ApiError(400, 'Invalid Semester Code Provided');
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'Invalid Semester Code Provided'
+    );
   }
 
   // Updating semester

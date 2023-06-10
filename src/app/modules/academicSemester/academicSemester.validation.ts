@@ -11,7 +11,7 @@ import {
 const createAcademicSemesterZodSchema = z.object({
   body: z.object({
     title: z.enum(
-      [...AcademicSemesterConstants.Titles] as [
+      [...AcademicSemesterConstants.titles] as [
         IAcademicSemesterTitles,
         ...IAcademicSemesterTitles[]
       ],
@@ -23,7 +23,7 @@ const createAcademicSemesterZodSchema = z.object({
       required_error: 'Year is required',
     }),
     code: z.enum(
-      [...AcademicSemesterConstants.Codes] as [
+      [...AcademicSemesterConstants.codes] as [
         IAcademicSemesterCodes,
         ...IAcademicSemesterCodes[]
       ],
@@ -32,7 +32,7 @@ const createAcademicSemesterZodSchema = z.object({
       }
     ),
     startMonth: z.enum(
-      [...AcademicSemesterConstants.Months] as [
+      [...AcademicSemesterConstants.months] as [
         IAcademicSemesterMonths,
         ...IAcademicSemesterMonths[]
       ],
@@ -41,7 +41,7 @@ const createAcademicSemesterZodSchema = z.object({
       }
     ),
     endMonth: z.enum(
-      [...AcademicSemesterConstants.Months] as [
+      [...AcademicSemesterConstants.months] as [
         IAcademicSemesterMonths,
         ...IAcademicSemesterMonths[]
       ],
@@ -57,26 +57,26 @@ const updateAcademicSemesterZodSchema = z
   .object({
     body: z.object({
       title: z
-        .enum([...AcademicSemesterConstants.Titles] as [
+        .enum([...AcademicSemesterConstants.titles] as [
           IAcademicSemesterTitles,
           ...IAcademicSemesterTitles[]
         ])
         .optional(),
       year: z.string().optional(),
       code: z
-        .enum([...AcademicSemesterConstants.Codes] as [
+        .enum([...AcademicSemesterConstants.codes] as [
           IAcademicSemesterCodes,
           ...IAcademicSemesterCodes[]
         ])
         .optional(),
       startMonth: z
-        .enum([...AcademicSemesterConstants.Months] as [
+        .enum([...AcademicSemesterConstants.months] as [
           IAcademicSemesterMonths,
           ...IAcademicSemesterMonths[]
         ])
         .optional(),
       endMonth: z
-        .enum([...AcademicSemesterConstants.Months] as [
+        .enum([...AcademicSemesterConstants.months] as [
           IAcademicSemesterMonths,
           ...IAcademicSemesterMonths[]
         ])
