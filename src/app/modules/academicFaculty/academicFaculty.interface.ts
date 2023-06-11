@@ -8,3 +8,8 @@ export type IAcademicFaculty = {
 
 // Academic Faculty Model Type
 export type AcademicFacultyModel = Model<IAcademicFaculty>;
+
+// Academic Faculty Filters Type
+export type IAcademicFacultyFilters = {
+  searchTerm?: string;
+};

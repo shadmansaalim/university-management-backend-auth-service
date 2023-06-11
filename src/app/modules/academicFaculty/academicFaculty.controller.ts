@@ -4,9 +4,12 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
+import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
 import { IAcademicFaculty } from './academicFaculty.interface';
 import { AcademicFacultyService } from './academicFaculty.service';
+import { AcademicFacultyConstants } from './academicFaculty.constant';
+import { PaginationConstants } from '../../../constants/pagination';
 
 // Function that works when create academic faculty POST API hits
 const createFaculty = catchAsync(async (req: Request, res: Response) => {
@@ -27,12 +30,40 @@ const createFaculty = catchAsync(async (req: Request, res: Response) => {
 
 // Function to GET All Academic Faculties
 const getAllFaculties = catchAsync(async (req: Request, res: Response) => {
-  // Write code here
+  // Making a filter options object
+  const filters = pick(req.query, AcademicFacultyConstants.filterableFields);
+
+  // Making a pagination options object
+  const paginationOptions = pick(req.query, PaginationConstants.fields);
+
+  // Getting all faculties based on request
+  const result = await AcademicFacultyService.getAllFaculties(
+    filters,
+    paginationOptions
+  );
+
+  // Sending API Response
+  sendResponse<IAcademicFaculty[]>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Academic Faculties retrieved successfully.',
+    meta: result?.meta,
+    data: result?.data,
+  });
 });
 
 // Function to GET Single Academic Faculty
 const getSingleFaculty = catchAsync(async (req: Request, res: Response) => {
-  // Write code here
+  // Destructuring id from params
+  const { id } = req.params;
+  const result = await AcademicFacultyService.getSingleFaculty(id);
+
+  sendResponse<IAcademicFaculty>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Academic Faculty retrieved successfully',
+    data: result,
+  });
 });
 
 // Function to update faculty
