@@ -106,9 +106,19 @@ const updateSingleFaculty = async (
   return result;
 };
 
+// DELETE Single Faculty
+const deleteSingleFaculty = async (
+  id: string
+): Promise<IAcademicFaculty | null> => {
+  // Deleting faculty
+  const result = await AcademicFaculty.findByIdAndDelete(id);
+  return result;
+};
+
 export const AcademicFacultyService = {
   createFaculty,
   getAllFaculties,
   getSingleFaculty,
   updateSingleFaculty,
+  deleteSingleFaculty,
 };
