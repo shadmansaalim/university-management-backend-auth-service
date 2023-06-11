@@ -14,7 +14,9 @@ import { AcademicDepartmentConstants } from './academicDepartment.constant';
 const createDepartment = async (
   payload: IAcademicDepartment
 ): Promise<IAcademicDepartment> => {
-  const result = await AcademicDepartment.create(payload);
+  const result = await (
+    await AcademicDepartment.create(payload)
+  ).populate('academicFaculty');
   return result;
 };
 
@@ -69,6 +71,7 @@ const getAllDepartments = async (
 
   // Departments
   const result = await AcademicDepartment.find(findConditions)
+    .populate('academicFaculty')
     .sort(sortingCondition)
     .skip(skip)
     .limit(limit);
@@ -90,7 +93,9 @@ const getAllDepartments = async (
 const getSingleDepartment = async (
   id: string
 ): Promise<IAcademicDepartment | null> => {
-  const result = await AcademicDepartment.findById(id);
+  const result = await AcademicDepartment.findById(id).populate(
+    'academicFaculty'
+  );
   return result;
 };
 
@@ -106,7 +111,7 @@ const updateSingleDepartment = async (
     {
       new: true,
     }
-  );
+  ).populate('academicFaculty');
   return result;
 };
 
@@ -115,7 +120,9 @@ const deleteSingleDepartment = async (
   id: string
 ): Promise<IAcademicDepartment | null> => {
   // Deleting department
-  const result = await AcademicDepartment.findByIdAndDelete(id);
+  const result = await AcademicDepartment.findByIdAndDelete(id).populate(
+    'academicFaculty'
+  );
   return result;
 };
 
