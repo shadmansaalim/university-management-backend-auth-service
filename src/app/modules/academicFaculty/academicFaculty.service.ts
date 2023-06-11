@@ -94,8 +94,21 @@ const getSingleFaculty = async (
   return result;
 };
 
+// Update Single Faculty Function
+const updateSingleFaculty = async (
+  id: string,
+  payload: Partial<IAcademicFaculty>
+): Promise<IAcademicFaculty | null> => {
+  // Updating semester
+  const result = await AcademicFaculty.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+  });
+  return result;
+};
+
 export const AcademicFacultyService = {
   createFaculty,
   getAllFaculties,
   getSingleFaculty,
+  updateSingleFaculty,
 };

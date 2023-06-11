@@ -106,7 +106,7 @@ const getSingleSemester = async (
   return result;
 };
 
-// GET Single Semester Function
+// Update Single Semester Function
 const updateSingleSemester = async (
   id: string,
   payload: Partial<IAcademicSemester>

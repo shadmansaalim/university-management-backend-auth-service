@@ -68,7 +68,22 @@ const getSingleFaculty = catchAsync(async (req: Request, res: Response) => {
 
 // Function to update faculty
 const updateSingleFaculty = catchAsync(async (req: Request, res: Response) => {
-  // Write code here
+  // Getting semester id from params
+  const id = req.params.id;
+  // Getting updated data
+  const updatedData = req.body;
+
+  const result = await AcademicFacultyService.updateSingleFaculty(
+    id,
+    updatedData
+  );
+
+  sendResponse<IAcademicFaculty>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Academic Faculty updated successfully',
+    data: result,
+  });
 });
 
 // Function to delete faculty
