@@ -29,7 +29,6 @@ const errorLists: Record<string, (error: any) => void> = {
     const formattedError = handleZodError(error);
     // Destructuring
     ({ statusCode, message, errorMessages } = formattedError);
-    console.log('SS : ', formattedError);
   },
   ApiError: function (error) {
     statusCode = error?.statusCode;

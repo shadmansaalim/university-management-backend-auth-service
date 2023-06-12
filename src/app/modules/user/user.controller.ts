@@ -8,8 +8,8 @@ import httpStatus from 'http-status';
 
 // Function that works when create user POST API hits
 const createUser = catchAsync(async (req: Request, res: Response) => {
-  // Destructuring user from request body
-  const { user } = req.body;
+  // Getting user from request body
+  const user = req.body;
   const result = await UserService.createUser(user);
 
   // Sending API Response

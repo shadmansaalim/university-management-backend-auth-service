@@ -17,3 +17,8 @@ export type IGenericResponse<T> = {
   };
   data: T;
 };
+
+// Conditional Options Type
+export type ConditionalOptions<T, K extends keyof T> = T[K] extends null
+  ? []
+  : [T[K]];

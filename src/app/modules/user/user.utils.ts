@@ -1,11 +1,19 @@
 // Imports
-import { IAcademicSemester } from '../academicSemester/academicSemester.interface';
+import { ConditionalOptions } from '../../../interfaces/common';
+import { IRolePossibleValues } from './user.interface';
 import { User } from './user.model';
 
-// Function to find last student id
-export const findLastStudentId = async () => {
+// User Roles Mapper roles -> char
+const RoleMapChar = {
+  student: 'S',
+  faculty: 'F',
+  admin: 'A',
+};
+
+// Function to find last id
+const findLastUserId = async (payload: string): Promise<string | undefined> => {
   // Finding One User and taking id only using filed filtering
-  const lastUser = await User.findOne({}, { id: 1, _id: 0 })
+  const lastUser = await User.findOne({ role: payload }, { id: 1, _id: 0 })
     .sort({
       createdAt: -1,
     })
@@ -14,29 +22,47 @@ export const findLastStudentId = async () => {
   return lastUser?.id;
 };
 
-// Function to generate student id
-export const generateStudentId = async (
-  academicSemester: IAcademicSemester
+// Function to generate user id
+export const generateUserId = async <T extends keyof IRolePossibleValues>(
+  userRole: T,
+  ...academicSemester: ConditionalOptions<IRolePossibleValues, T>
 ): Promise<string> => {
-  // Student Last two digits of academic semester year
-  const studentLastTwoDigitsOfAcademicSemesterYear =
-    academicSemester.year.substring(2);
+  // User Id
+  let userId = '';
 
-  // Student academic semester year code
-  const studentAcademicSemesterCode = academicSemester.code;
+  // First user id for the requested role in database
+  const defaultId = (0).toString().padStart(5, '0');
 
-  // Getting last student id and keeping it in defaultId variable if not storing default id which is for the first user in the database
-  const defaultId =
-    (await findLastStudentId()) || (0).toString().padStart(5, '0');
+  // Getting last user id and keeping it in lastUserId variable otherwise storing default id
+  const lastUserId = (await findLastUserId(userRole)) || defaultId;
 
-  // Increment defaultId by 1
-  const currentId = parseInt(defaultId) + 1;
+  // Getting last 5 digits of last user id
+  const lastFiveDigitsOfLastUserId = lastUserId.substr(lastUserId.length - 5);
 
-  // Format current id to add starting '0's
-  const formattedCurrentId =
-    studentLastTwoDigitsOfAcademicSemesterYear +
-    studentAcademicSemesterCode +
-    currentId.toString().padStart(5, '0');
+  // Increment lastFiveDigitsOfLastUserId by 1 to get the current ID
+  const currentId = parseInt(lastFiveDigitsOfLastUserId) + 1;
 
-  return formattedCurrentId;
+  // First char of the ID based on roles
+  const userIdFirstChar = RoleMapChar[userRole];
+
+  // Add formats to the main part of ID based on roles
+  if (userRole === 'student' && academicSemester[0]) {
+    // Student Last two digits of academic semester year
+    const studentLastTwoDigitsOfAcademicSemesterYear =
+      academicSemester[0].year.substring(2);
+
+    // Student academic semester year code
+    const studentAcademicSemesterCode = academicSemester[0].code;
+
+    // Student Format and add current id to add starting '0's
+    userId =
+      userIdFirstChar +
+      studentLastTwoDigitsOfAcademicSemesterYear +
+      studentAcademicSemesterCode +
+      currentId.toString().padStart(5, '0');
+  } else {
+    userId = userIdFirstChar + currentId.toString().padStart(5, '0');
+  }
+
+  return userId;
 };
