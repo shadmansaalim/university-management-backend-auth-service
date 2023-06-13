@@ -52,3 +52,13 @@ export type IStudent = {
 
 // Student Model Type
 export type StudentModel = Model<IStudent, Record<string, unknown>>;
+
+// Student Filters Type
+export type IStudentFilters = {
+  searchTerm?: string;
+  id?: string;
+  bloodGroup?: string;
+  email?: string;
+  contactNo?: string;
+  emergencyContactNo?: string;
+};
