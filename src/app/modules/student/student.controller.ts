@@ -48,6 +48,24 @@ const getSingleStudent = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Function to update student
+const updateSingleStudent = catchAsync(async (req: Request, res: Response) => {
+  // Getting student id from params
+  const id = req.params.id;
+  // Getting updated data
+  const updatedData = req.body;
+
+  const result = await StudentService.updateSingleStudent(id, updatedData);
+
+  // Sending API Response
+  sendResponse<IStudent>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Student updated successfully.',
+    data: result,
+  });
+});
+
 // Function to delete student
 const deleteSingleStudent = catchAsync(async (req: Request, res: Response) => {
   // Getting student id from params
@@ -67,5 +85,6 @@ const deleteSingleStudent = catchAsync(async (req: Request, res: Response) => {
 export const StudentController = {
   getAllStudents,
   getSingleStudent,
+  updateSingleStudent,
   deleteSingleStudent,
 };

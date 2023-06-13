@@ -58,12 +58,15 @@ const getAllStudents = async (
 
   // Students
   const result = await Student.find(findConditions)
+    .populate('academicSemester')
+    .populate('academicDepartment')
+    .populate('academicFaculty')
     .sort(sortingCondition)
     .skip(skip)
     .limit(limit);
 
-  // Total Student Documents in Database
-  const total = await Student.countDocuments();
+  // Count of Student Documents
+  const total = await Student.countDocuments(findConditions);
 
   return {
     meta: {
@@ -77,19 +80,38 @@ const getAllStudents = async (
 
 // GET Single Student Function
 const getSingleStudent = async (payload: string): Promise<IStudent | null> => {
-  const result = await Student.findById(payload);
+  const result = await Student.findById(payload)
+    .populate('academicSemester')
+    .populate('academicDepartment')
+    .populate('academicFaculty');
+  return result;
+};
+
+// Update Single Student Function
+const updateSingleStudent = async (
+  id: string,
+  payload: Partial<IStudent>
+): Promise<IStudent | null> => {
+  // Updating student
+  const result = await Student.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+  });
   return result;
 };
 
 // DELETE Single Student
 const deleteSingleStudent = async (id: string): Promise<IStudent | null> => {
   // Deleting student
-  const result = await Student.findByIdAndDelete(id);
+  const result = await Student.findByIdAndDelete(id)
+    .populate('academicSemester')
+    .populate('academicDepartment')
+    .populate('academicFaculty');
   return result;
 };
 
 export const StudentService = {
   getAllStudents,
   getSingleStudent,
+  updateSingleStudent,
   deleteSingleStudent,
 };
