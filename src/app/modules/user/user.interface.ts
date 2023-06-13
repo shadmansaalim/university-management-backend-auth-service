@@ -22,7 +22,7 @@ export type UserModel = Model<IUser, object>;
 
 // Possible values based on roles
 export type IRolePossibleValues = {
-  student: IAcademicSemester;
+  student: IAcademicSemester | null;
   faculty: null;
   admin: null;
 };
