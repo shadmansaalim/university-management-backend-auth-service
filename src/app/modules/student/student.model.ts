@@ -16,13 +16,12 @@ export const StudentSchema = new Schema<IStudent, StudentModel>(
           type: String,
           required: true,
         },
+        middleName: {
+          type: String,
+        },
         lastName: {
           type: String,
           required: true,
-        },
-        middleName: {
-          type: String,
-          required: false,
         },
       },
       required: true,
@@ -30,9 +29,11 @@ export const StudentSchema = new Schema<IStudent, StudentModel>(
     gender: {
       type: String,
       enum: StudentConstants.gender,
+      required: true,
     },
     dateOfBirth: {
       type: String,
+      required: true,
     },
     email: {
       type: String,

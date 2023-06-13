@@ -7,8 +7,8 @@ import { IAcademicSemester } from '../academicSemester/academicSemester.interfac
 // User Name Type
 export type UserName = {
   firstName: string;
+  middleName?: string;
   lastName: string;
-  middleName: string;
 };
 
 // Guardian Type
