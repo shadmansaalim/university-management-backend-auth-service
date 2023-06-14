@@ -1,14 +1,13 @@
 // Imports
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
-import { PaginationHelpers } from '../../../helpers/paginationHelper';
-import { SortOrder } from 'mongoose';
 import {
   IAcademicDepartment,
   IAcademicDepartmentFilters,
 } from './academicDepartment.interface';
 import { AcademicDepartment } from './academicDepartment.model';
 import { AcademicDepartmentConstants } from './academicDepartment.constant';
+import getAllDocuments from '../../../shared/getAllDocuments';
 
 // Create Department Function
 const createDepartment = async (
@@ -25,59 +24,14 @@ const getAllDepartments = async (
   filters: IAcademicDepartmentFilters,
   paginationOptions: IPaginationOptions
 ): Promise<IGenericResponse<IAcademicDepartment[]>> => {
-  // Destructuring ~ Searching and Filtering
-  const { searchTerm, ...filterData } = filters;
-
-  // Storing all searching and filtering condition in this array
-  const searchFilterConditions = [];
-
-  // Checking if SEARCH is requested in GET API - adding find conditions
-  if (searchTerm) {
-    searchFilterConditions.push({
-      $or: AcademicDepartmentConstants.searchableFields.map(field => ({
-        [field]: {
-          $regex: searchTerm,
-          $options: 'i',
-        },
-      })),
-    });
-  }
-
-  // Checking if FILTER is requested in GET API - adding find conditions
-  if (Object.keys(filterData).length) {
-    searchFilterConditions.push({
-      $and: Object.entries(filterData).map(([field, value]) => ({
-        [field]: value,
-      })),
-    });
-  }
-
-  // Destructuring ~ Pagination and Sorting
-  const { page, limit, sortBy, sortOrder, skip } =
-    PaginationHelpers.calculatePagination(paginationOptions);
-
-  // Default Sorting Condition
-  const sortingCondition: { [key: string]: SortOrder } = {};
-
-  // Adding sort condition if requested
-  if (sortBy && sortOrder) {
-    sortingCondition[sortBy] = sortOrder;
-  }
-
-  // Condition for finding departments
-  const findConditions = searchFilterConditions.length
-    ? { $and: searchFilterConditions }
-    : {};
-
-  // Departments
-  const result = await AcademicDepartment.find(findConditions)
-    .populate('academicFaculty')
-    .sort(sortingCondition)
-    .skip(skip)
-    .limit(limit);
-
-  // Total Department Documents in Database
-  const total = await AcademicDepartment.countDocuments();
+  // Getting all departments
+  const { page, limit, total, result } = await getAllDocuments(
+    filters,
+    paginationOptions,
+    AcademicDepartmentConstants.searchableFields,
+    AcademicDepartment,
+    AcademicDepartmentConstants.fieldsToPopulate
+  );
 
   return {
     meta: {

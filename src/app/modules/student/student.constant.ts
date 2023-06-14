@@ -24,9 +24,17 @@ const filterableFields = [
   'emergencyContactNo',
 ];
 
+// Fields to populate in student data
+const fieldsToPopulate = [
+  'academicSemester',
+  'academicDepartment',
+  'academicFaculty',
+];
+
 export const StudentConstants = {
   gender,
   bloodGroup,
   searchableFields,
   filterableFields,
+  fieldsToPopulate,
 };

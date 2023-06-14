@@ -1,4 +1,8 @@
 //Imports
+import { IAcademicDepartmentFilters } from '../app/modules/academicDepartment/academicDepartment.interface';
+import { IAcademicFacultyFilters } from '../app/modules/academicFaculty/academicFaculty.interface';
+import { IAcademicSemesterFilters } from '../app/modules/academicSemester/academicSemester.interface';
+import { IStudentFilters } from '../app/modules/student/student.interface';
 import { IGenericErrorMessage } from './error';
 
 // Error response format
@@ -22,3 +26,10 @@ export type IGenericResponse<T> = {
 export type ConditionalOptions<T, K extends keyof T> = T[K] extends null
   ? []
   : [T[K]];
+
+// Document Filters Type
+export type IDocumentFilters =
+  | IStudentFilters
+  | IAcademicSemesterFilters
+  | IAcademicDepartmentFilters
+  | IAcademicFacultyFilters;

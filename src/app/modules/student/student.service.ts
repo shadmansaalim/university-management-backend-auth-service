@@ -1,74 +1,26 @@
 // Imports
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { IGenericResponse } from '../../../interfaces/common';
-import { PaginationHelpers } from '../../../helpers/paginationHelper';
-import { SortOrder } from 'mongoose';
 import { IStudent, IStudentFilters } from './student.interface';
 import { StudentConstants } from './student.constant';
 import { Student } from './student.model';
 import ApiError from '../../../errors/ApiError';
 import httpStatus from 'http-status';
+import getAllDocuments from '../../../shared/getAllDocuments';
 
 // GET All Students Function
 const getAllStudents = async (
   filters: IStudentFilters,
   paginationOptions: IPaginationOptions
 ): Promise<IGenericResponse<IStudent[]>> => {
-  // Destructuring ~ Searching and Filtering
-  const { searchTerm, ...filterData } = filters;
-
-  // Storing all searching and filtering condition in this array
-  const searchFilterConditions = [];
-
-  // Checking if SEARCH is requested in GET API - adding find conditions
-  if (searchTerm) {
-    searchFilterConditions.push({
-      $or: StudentConstants.searchableFields.map(field => ({
-        [field]: {
-          $regex: searchTerm,
-          $options: 'i',
-        },
-      })),
-    });
-  }
-
-  // Checking if FILTER is requested in GET API - adding find conditions
-  if (Object.keys(filterData).length) {
-    searchFilterConditions.push({
-      $and: Object.entries(filterData).map(([field, value]) => ({
-        [field]: value,
-      })),
-    });
-  }
-
-  // Destructuring ~ Pagination and Sorting
-  const { page, limit, sortBy, sortOrder, skip } =
-    PaginationHelpers.calculatePagination(paginationOptions);
-
-  // Default Sorting Condition
-  const sortingCondition: { [key: string]: SortOrder } = {};
-
-  // Adding sort condition if requested
-  if (sortBy && sortOrder) {
-    sortingCondition[sortBy] = sortOrder;
-  }
-
-  // Condition for finding students
-  const findConditions = searchFilterConditions.length
-    ? { $and: searchFilterConditions }
-    : {};
-
-  // Students
-  const result = await Student.find(findConditions)
-    .populate('academicSemester')
-    .populate('academicDepartment')
-    .populate('academicFaculty')
-    .sort(sortingCondition)
-    .skip(skip)
-    .limit(limit);
-
-  // Count of Student Documents
-  const total = await Student.countDocuments(findConditions);
+  // Getting all students
+  const { page, limit, total, result } = await getAllDocuments(
+    filters,
+    paginationOptions,
+    StudentConstants.searchableFields,
+    Student,
+    StudentConstants.fieldsToPopulate
+  );
 
   return {
     meta: {

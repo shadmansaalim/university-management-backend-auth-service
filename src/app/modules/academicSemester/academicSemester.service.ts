@@ -8,9 +8,8 @@ import { AcademicSemesterConstants } from './academicSemester.constant';
 import ApiError from '../../../errors/ApiError';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { IGenericResponse } from '../../../interfaces/common';
-import { PaginationHelpers } from '../../../helpers/paginationHelper';
-import { SortOrder } from 'mongoose';
 import httpStatus from 'http-status';
+import getAllDocuments from '../../../shared/getAllDocuments';
 
 // Create Semester Function
 const createSemester = async (
@@ -35,58 +34,13 @@ const getAllSemesters = async (
   filters: IAcademicSemesterFilters,
   paginationOptions: IPaginationOptions
 ): Promise<IGenericResponse<IAcademicSemester[]>> => {
-  // Destructuring ~ Searching and Filtering
-  const { searchTerm, ...filterData } = filters;
-
-  // Storing all searching and filtering condition in this array
-  const searchFilterConditions = [];
-
-  // Checking if SEARCH is requested in GET API - adding find conditions
-  if (searchTerm) {
-    searchFilterConditions.push({
-      $or: AcademicSemesterConstants.searchableFields.map(field => ({
-        [field]: {
-          $regex: searchTerm,
-          $options: 'i',
-        },
-      })),
-    });
-  }
-
-  // Checking if FILTER is requested in GET API - adding find conditions
-  if (Object.keys(filterData).length) {
-    searchFilterConditions.push({
-      $and: Object.entries(filterData).map(([field, value]) => ({
-        [field]: value,
-      })),
-    });
-  }
-
-  // Destructuring ~ Pagination and Sorting
-  const { page, limit, sortBy, sortOrder, skip } =
-    PaginationHelpers.calculatePagination(paginationOptions);
-
-  // Default Sorting Condition
-  const sortingCondition: { [key: string]: SortOrder } = {};
-
-  // Adding sort condition if requested
-  if (sortBy && sortOrder) {
-    sortingCondition[sortBy] = sortOrder;
-  }
-
-  // Condition for finding semesters
-  const findConditions = searchFilterConditions.length
-    ? { $and: searchFilterConditions }
-    : {};
-
-  // Semesters
-  const result = await AcademicSemester.find(findConditions)
-    .sort(sortingCondition)
-    .skip(skip)
-    .limit(limit);
-
-  // Total Semester Documents in Database
-  const total = await AcademicSemester.countDocuments();
+  // Getting all semesters
+  const { page, limit, total, result } = await getAllDocuments(
+    filters,
+    paginationOptions,
+    AcademicSemesterConstants.searchableFields,
+    AcademicSemester
+  );
 
   return {
     meta: {
