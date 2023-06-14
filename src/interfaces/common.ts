@@ -33,3 +33,10 @@ export type IDocumentFilters =
   | IAcademicSemesterFilters
   | IAcademicDepartmentFilters
   | IAcademicFacultyFilters;
+
+// User Name Type
+export type UserName = {
+  firstName: string;
+  middleName?: string;
+  lastName: string;
+};

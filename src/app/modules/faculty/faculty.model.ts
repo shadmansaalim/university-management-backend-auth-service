@@ -1,9 +1,9 @@
 //Imports
 import { Schema, model } from 'mongoose';
-import { IStudent, StudentModel } from './student.interface';
 import { DataConstants } from '../../../constants/data';
+import { FacultyModel, IFaculty } from './faculty.interface';
 
-export const studentSchema = new Schema<IStudent, StudentModel>(
+export const facultySchema = new Schema<IFaculty, FacultyModel>(
   {
     id: {
       type: String,
@@ -61,59 +61,9 @@ export const studentSchema = new Schema<IStudent, StudentModel>(
       type: String,
       required: true,
     },
-    guardian: {
+    designation: {
+      type: String,
       required: true,
-      type: {
-        fatherName: {
-          type: String,
-          required: true,
-        },
-        fatherOccupation: {
-          type: String,
-          required: true,
-        },
-        fatherContactNo: {
-          type: String,
-          required: true,
-        },
-        motherName: {
-          type: String,
-          required: true,
-        },
-        motherOccupation: {
-          type: String,
-          required: true,
-        },
-        motherContactNo: {
-          type: String,
-          required: true,
-        },
-        address: {
-          type: String,
-          required: true,
-        },
-      },
-    },
-    localGuardian: {
-      required: true,
-      type: {
-        name: {
-          type: String,
-          required: true,
-        },
-        occupation: {
-          type: String,
-          required: true,
-        },
-        contactNo: {
-          type: String,
-          required: true,
-        },
-        address: {
-          type: String,
-          required: true,
-        },
-      },
     },
     academicFaculty: {
       type: Schema.Types.ObjectId,
@@ -123,11 +73,6 @@ export const studentSchema = new Schema<IStudent, StudentModel>(
     academicDepartment: {
       type: Schema.Types.ObjectId,
       ref: 'AcademicDepartment',
-      required: true,
-    },
-    academicSemester: {
-      type: Schema.Types.ObjectId, // academicSemester --> _id
-      ref: 'AcademicSemester',
       required: true,
     },
     profileImage: {
@@ -143,5 +88,5 @@ export const studentSchema = new Schema<IStudent, StudentModel>(
   }
 );
 
-// Student Model
-export const Student = model<IStudent, StudentModel>('Student', studentSchema);
+// Faculty Model
+export const Faculty = model<IFaculty, FacultyModel>('Faculty', facultySchema);

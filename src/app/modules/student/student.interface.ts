@@ -1,15 +1,9 @@
 // Imports
 import { Model, Types } from 'mongoose';
+import { UserName } from '../../../interfaces/common';
 import { IAcademicDepartment } from '../academicDepartment/academicDepartment.interface';
 import { IAcademicFaculty } from '../academicFaculty/academicFaculty.interface';
 import { IAcademicSemester } from '../academicSemester/academicSemester.interface';
-
-// User Name Type
-export type UserName = {
-  firstName: string;
-  middleName?: string;
-  lastName: string;
-};
 
 // Guardian Type
 export type Guardian = {

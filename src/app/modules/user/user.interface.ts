@@ -3,6 +3,7 @@ import { Model } from 'mongoose';
 import { IAcademicSemester } from '../academicSemester/academicSemester.interface';
 import { Types } from 'mongoose';
 import { IStudent } from '../student/student.interface';
+import { IFaculty } from '../faculty/faculty.interface';
 
 // User Role
 export type IUserRole = 'student' | 'faculty' | 'admin';
@@ -13,7 +14,7 @@ export type IUser = {
   role: IUserRole;
   password: string;
   student?: Types.ObjectId | IStudent;
-  // faculty?: Types.ObjectId | IFaculty;
+  faculty?: Types.ObjectId | IFaculty;
   // admin?: Types.ObjectId | IAdmin;
 };
 

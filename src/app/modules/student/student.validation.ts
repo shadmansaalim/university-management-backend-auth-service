@@ -1,6 +1,6 @@
 // Imports
 import { z } from 'zod';
-import { StudentConstants } from '../student/student.constant';
+import { DataConstants } from '../../../constants/data';
 
 // Validation of API request using ZOD
 const updateStudentZodSchema = z.object({
@@ -11,14 +11,14 @@ const updateStudentZodSchema = z.object({
       middleName: z.string().optional(),
     }),
     gender: z
-      .enum([...StudentConstants.gender] as [string, ...string[]])
+      .enum([...DataConstants.gender] as [string, ...string[]])
       .optional(),
     dateOfBirth: z.string().optional(),
     email: z.string().email().optional(),
     contactNo: z.string().optional(),
     emergencyContactNo: z.string().optional(),
     bloodGroup: z
-      .enum([...StudentConstants.bloodGroup] as [string, ...string[]])
+      .enum([...DataConstants.bloodGroup] as [string, ...string[]])
       .optional(),
     presentAddress: z.string().optional(),
     permanentAddress: z.string().optional(),
