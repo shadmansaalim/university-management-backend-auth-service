@@ -33,8 +33,8 @@ const getAllStudents = async (
 };
 
 // GET Single Student Function
-const getSingleStudent = async (payload: string): Promise<IStudent | null> => {
-  const result = await Student.findById(payload)
+const getSingleStudent = async (id: string): Promise<IStudent | null> => {
+  const result = await Student.findOne({ id })
     .populate('academicSemester')
     .populate('academicDepartment')
     .populate('academicFaculty');
