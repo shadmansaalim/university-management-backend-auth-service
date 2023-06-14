@@ -6,6 +6,8 @@ import { SortOrder } from 'mongoose';
 import { IStudent, IStudentFilters } from './student.interface';
 import { StudentConstants } from './student.constant';
 import { Student } from './student.model';
+import ApiError from '../../../errors/ApiError';
+import httpStatus from 'http-status';
 
 // GET All Students Function
 const getAllStudents = async (
@@ -92,17 +94,47 @@ const updateSingleStudent = async (
   id: string,
   payload: Partial<IStudent>
 ): Promise<IStudent | null> => {
-  // Updating student
-  const result = await Student.findOneAndUpdate({ _id: id }, payload, {
-    new: true,
-  });
-  return result;
-};
+  // Checking whether student exists
+  const studentExists = await Student.findOne({ id });
 
-// DELETE Single Student
-const deleteSingleStudent = async (id: string): Promise<IStudent | null> => {
-  // Deleting student
-  const result = await Student.findByIdAndDelete(id)
+  // Throwing error if student not exists
+  if (!studentExists) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Student not found');
+  }
+
+  // Destructuring
+  const { name, guardian, localGuardian, ...studentData } = payload;
+
+  // Storing student data
+  const updatedStudentData: Partial<IStudent> = { ...studentData };
+
+  // Dynamically handling update of name, guardian and localGuardian
+
+  if (name && Object.keys(name).length) {
+    Object.keys(name).forEach((key: string) => {
+      const nameKey = `name.${key}`;
+      (updatedStudentData as any)[nameKey] = name[key as keyof typeof name];
+    });
+  }
+  if (guardian && Object.keys(guardian).length) {
+    Object.keys(guardian).forEach((key: string) => {
+      const guardianKey = `name.${key}`;
+      (updatedStudentData as any)[guardianKey] =
+        guardian[key as keyof typeof guardian];
+    });
+  }
+  if (localGuardian && Object.keys(localGuardian).length) {
+    Object.keys(localGuardian).forEach((key: string) => {
+      const localGuardianKey = `name.${key}`;
+      (updatedStudentData as any)[localGuardianKey] =
+        localGuardian[key as keyof typeof localGuardian];
+    });
+  }
+
+  // Updating student
+  const result = await Student.findOneAndUpdate({ id }, updatedStudentData, {
+    new: true,
+  })
     .populate('academicSemester')
     .populate('academicDepartment')
     .populate('academicFaculty');
@@ -113,5 +145,4 @@ export const StudentService = {
   getAllStudents,
   getSingleStudent,
   updateSingleStudent,
-  deleteSingleStudent,
 };
