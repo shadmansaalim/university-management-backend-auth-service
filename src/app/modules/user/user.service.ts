@@ -11,6 +11,8 @@ import mongoose from 'mongoose';
 import { Student } from '../student/student.model';
 import { IFaculty } from '../faculty/faculty.interface';
 import { Faculty } from '../faculty/faculty.model';
+import { IAdmin } from '../admin/admin.interface';
+import { Admin } from '../admin/admin.model';
 
 // Function to create a student in database
 const createStudent = async (
@@ -183,8 +185,87 @@ const createFaculty = async (
   return newUserData;
 };
 
+// Function to create an admin in database
+const createAdmin = async (
+  admin: IAdmin,
+  user: IUser
+): Promise<IUser | null> => {
+  // New user data
+  let newUserData = null;
+
+  // Set user role
+  user.role = 'admin';
+
+  // Assigning Default Password if not password
+  if (!user.password) {
+    user.password = config.default_admin_pass as string;
+  }
+
+  // Mongoose session started;
+  const session = await mongoose.startSession();
+
+  try {
+    // Starting Transaction
+    session.startTransaction();
+
+    // Generating admin id and storing it;
+    const adminId = await generateUserId(user.role);
+    admin.id = adminId;
+
+    //Creating new admin
+    const newAdmin = await Admin.create([admin], { session });
+
+    // Throwing error if fails to create admin
+    if (!newAdmin.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, `Failed to create admin`);
+    }
+
+    // Set user id as adminId and admin's _id into student field of user
+    user.id = adminId;
+    user.admin = newAdmin[0]._id;
+
+    // Creating new user
+    const newUser = await User.create([user], { session });
+
+    // Throwing error if fails to create user
+    if (!newUser.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, `Failed to create an user`);
+    }
+
+    // Storing new user data
+    newUserData = newUser[0];
+
+    // Committing Transaction
+    await session.commitTransaction();
+
+    // Ending Session
+    await session.endSession();
+  } catch (error) {
+    // Aborting Transaction because of error
+    await session.abortTransaction();
+    // Ending Session because of error
+    await session.endSession();
+
+    // Throwing error
+    throw error;
+  }
+
+  if (newUserData) {
+    newUserData = await User.findOne({ id: newUserData.id }).populate({
+      path: 'admin',
+      populate: [
+        {
+          path: 'managementDepartment',
+        },
+      ],
+    });
+  }
+  return newUserData;
+};
+
 // Exporting all functions of user related from service file
 export const UserService = {
   createStudent,
   createFaculty,
+  createAdmin,
 };

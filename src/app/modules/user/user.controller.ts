@@ -36,7 +36,23 @@ const createFaculty = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Function that works when create admin POST API hits
+const createAdmin = catchAsync(async (req: Request, res: Response) => {
+  // Getting admin and userData  from request body
+  const { admin, ...userData } = req.body;
+  const result = await UserService.createAdmin(admin, userData);
+
+  // Sending API Response
+  sendResponse<IUser>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User created successfully.',
+    data: result,
+  });
+});
+
 export const UserController = {
   createStudent,
   createFaculty,
+  createAdmin,
 };
