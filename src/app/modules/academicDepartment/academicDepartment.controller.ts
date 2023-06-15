@@ -66,7 +66,7 @@ const getSingleDepartment = catchAsync(async (req: Request, res: Response) => {
 // Function to update department
 const updateSingleDepartment = catchAsync(
   async (req: Request, res: Response) => {
-    // Getting semester id from params
+    // Getting academic department id from params
     const id = req.params.id;
     // Getting updated data
     const updatedData = req.body;
