@@ -13,7 +13,6 @@ import { IFaculty } from '../faculty/faculty.interface';
 import { Faculty } from '../faculty/faculty.model';
 import { IAdmin } from '../admin/admin.interface';
 import { Admin } from '../admin/admin.model';
-import bcrypt from 'bcrypt';
 
 // Function to create a student in database
 const createStudent = async (
@@ -30,12 +29,6 @@ const createStudent = async (
   if (!user.password) {
     user.password = config.default_student_pass as string;
   }
-
-  // Hashing Password
-  user.password = await bcrypt.hash(
-    user.password,
-    Number(config.bcrypt_salt_rounds)
-  );
 
   // Getting student's academic semester
   const academicSemester = await AcademicSemester.findById(
@@ -127,12 +120,6 @@ const createFaculty = async (
     user.password = config.default_faculty_pass as string;
   }
 
-  // Hashing Password
-  user.password = await bcrypt.hash(
-    user.password,
-    Number(config.bcrypt_salt_rounds)
-  );
-
   // Mongoose session started;
   const session = await mongoose.startSession();
 
@@ -213,12 +200,6 @@ const createAdmin = async (
   if (!user.password) {
     user.password = config.default_admin_pass as string;
   }
-
-  // Hashing Password
-  user.password = await bcrypt.hash(
-    user.password,
-    Number(config.bcrypt_salt_rounds)
-  );
 
   // Mongoose session started;
   const session = await mongoose.startSession();
