@@ -7,6 +7,8 @@ import getAllDocuments from '../../../shared/getAllDocuments';
 import { IFaculty, IFacultyFilters } from './faculty.interface';
 import { FacultyConstants } from './faculty.constant';
 import { Faculty } from './faculty.model';
+import mongoose from 'mongoose';
+import { User } from '../user/user.model';
 
 // GET All Faculties Function
 const getAllFaculties = async (
@@ -77,8 +79,62 @@ const updateSingleFaculty = async (
   return result;
 };
 
+// Delete Single Faculty Function
+const deleteSingleFaculty = async (id: string): Promise<IFaculty | null> => {
+  // Checking whether faculty exists
+  const facultyExists = await Faculty.findOne({ id });
+
+  // Throwing error if faculty not exists
+  if (!facultyExists) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Faculty not found');
+  }
+
+  // Mongoose session started
+  const session = await mongoose.startSession();
+
+  try {
+    // Starting Transaction
+    session.startTransaction();
+
+    // Deleting from Faculty Collection
+    const faculty = await Faculty.findOneAndDelete({ id }, { session })
+      .populate('academicDepartment')
+      .populate('academicFaculty');
+
+    // Throwing error if failed to delete faculty
+    if (!faculty) {
+      throw new ApiError(404, 'Failed to delete from faculty collection');
+    }
+
+    // Deleting from User Collection
+    const user = await User.deleteOne({ id }, { session });
+
+    // Throwing error if failed to delete user
+    if (!user) {
+      throw new ApiError(404, 'Failed to delete from user collection');
+    }
+
+    // Committing Transaction
+    await session.commitTransaction();
+
+    // Ending Session
+    await session.endSession();
+
+    return faculty;
+  } catch (error) {
+    // Aborting Transaction because of error
+    await session.abortTransaction();
+    // Ending Session because of error
+    await session.endSession();
+
+    // Throwing error
+    throw error;
+  }
+};
+
 export const FacultyService = {
   getAllFaculties,
   getSingleFaculty,
   updateSingleFaculty,
+  deleteSingleFaculty,
 };

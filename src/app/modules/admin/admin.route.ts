@@ -18,4 +18,6 @@ router.patch(
   AdminController.updateSingleAdmin
 );
 
+router.delete('/:id', AdminController.deleteSingleAdmin);
+
 export const AdminRoutes = router;

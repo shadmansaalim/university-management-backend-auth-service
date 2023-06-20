@@ -7,6 +7,8 @@ import { Student } from './student.model';
 import ApiError from '../../../errors/ApiError';
 import httpStatus from 'http-status';
 import getAllDocuments from '../../../shared/getAllDocuments';
+import mongoose from 'mongoose';
+import { User } from '../user/user.model';
 
 // GET All Students Function
 const getAllStudents = async (
@@ -93,8 +95,63 @@ const updateSingleStudent = async (
   return result;
 };
 
+// Delete Single Student Function
+const deleteSingleStudent = async (id: string): Promise<IStudent | null> => {
+  // Checking whether student exists
+  const studentExists = await Student.findOne({ id });
+
+  // Throwing error if student not exists
+  if (!studentExists) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Student not found');
+  }
+
+  // Mongoose session started
+  const session = await mongoose.startSession();
+
+  try {
+    // Starting Transaction
+    session.startTransaction();
+
+    // Deleting from Student Collection
+    const student = await Student.findOneAndDelete({ id }, { session })
+      .populate('academicSemester')
+      .populate('academicDepartment')
+      .populate('academicFaculty');
+
+    // Throwing error if failed to delete student
+    if (!student) {
+      throw new ApiError(404, 'Failed to delete from student collection');
+    }
+
+    // Deleting from User Collection
+    const user = await User.deleteOne({ id }, { session });
+
+    // Throwing error if failed to delete user
+    if (!user) {
+      throw new ApiError(404, 'Failed to delete from user collection');
+    }
+
+    // Committing Transaction
+    await session.commitTransaction();
+
+    // Ending Session
+    await session.endSession();
+
+    return student;
+  } catch (error) {
+    // Aborting Transaction because of error
+    await session.abortTransaction();
+    // Ending Session because of error
+    await session.endSession();
+
+    // Throwing error
+    throw error;
+  }
+};
+
 export const StudentService = {
   getAllStudents,
   getSingleStudent,
   updateSingleStudent,
+  deleteSingleStudent,
 };

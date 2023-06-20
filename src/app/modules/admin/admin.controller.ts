@@ -63,8 +63,25 @@ const updateSingleAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Function to delete admin
+const deleteSingleAdmin = catchAsync(async (req: Request, res: Response) => {
+  // Getting admin id from params
+  const id = req.params.id;
+
+  const result = await AdminService.deleteSingleAdmin(id);
+
+  // Sending API Response
+  sendResponse<IAdmin>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Admin deleted successfully.',
+    data: result,
+  });
+});
+
 export const AdminController = {
   getAllAdmins,
   getSingleAdmin,
   updateSingleAdmin,
+  deleteSingleAdmin,
 };
