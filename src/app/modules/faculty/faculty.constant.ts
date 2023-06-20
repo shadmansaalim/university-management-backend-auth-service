@@ -1,8 +1,8 @@
 // Searchable fields to GET faculties
 const searchableFields = [
-  'id',
   'email',
   'contactNo',
+  'emergencyContactNo',
   'name.firstName',
   'name.middleName',
   'name.lastName',
@@ -16,6 +16,7 @@ const filterableFields = [
   'email',
   'contactNo',
   'emergencyContactNo',
+  'designation',
 ];
 
 // Fields to populate in faculty data
