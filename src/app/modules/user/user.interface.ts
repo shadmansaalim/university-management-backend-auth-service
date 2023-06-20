@@ -1,3 +1,5 @@
+/* eslint-disable  no-unused-vars */
+
 //Imports
 import { Model } from 'mongoose';
 import { IAcademicSemester } from '../academicSemester/academicSemester.interface';
@@ -14,13 +16,22 @@ export type IUser = {
   id: string;
   role: IUserRole;
   password: string;
+  needsPasswordChange: boolean;
   student?: Types.ObjectId | IStudent;
   faculty?: Types.ObjectId | IFaculty;
   admin?: Types.ObjectId | IAdmin;
 };
 
 // User Model Type
-export type UserModel = Model<IUser, object>;
+export type UserModel = {
+  exists(
+    id: string
+  ): Promise<Pick<IUser, 'id' | 'password' | 'needsPasswordChange'> | null>;
+  isPasswordMatched(
+    givenPassword: string,
+    savedPassword: string
+  ): Promise<boolean>;
+} & Model<IUser>;
 
 // Possible values based on roles
 export type IRolePossibleValues = {
