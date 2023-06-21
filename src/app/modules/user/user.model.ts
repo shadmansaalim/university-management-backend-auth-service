@@ -53,10 +53,13 @@ const userSchema = new Schema<IUser, UserModel>(
 // Static Method to check whether user exists or not
 userSchema.statics.exists = async function (
   id: string
-): Promise<Pick<IUser, 'id' | 'password' | 'needsPasswordChange'> | null> {
+): Promise<Pick<
+  IUser,
+  'id' | 'role' | 'password' | 'needsPasswordChange'
+> | null> {
   return await User.findOne(
     { id },
-    { id: 1, password: 1, needsPasswordChange: 1 }
+    { id: 1, role: 1, password: 1, needsPasswordChange: 1 }
   ).lean();
 };
 

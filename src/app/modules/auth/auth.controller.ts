@@ -4,6 +4,7 @@ import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import httpStatus from 'http-status';
 import { AuthService } from './auth.service';
+import { ILoginUser } from './auth.interface';
 
 // Function to LOGIN user
 const loginUser = catchAsync(async (req: Request, res: Response) => {
@@ -12,7 +13,7 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
   const result = await AuthService.loginUser(loginData);
 
   // Sending API Response
-  sendResponse(res, {
+  sendResponse<ILoginUser>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'User logged in successfully.',

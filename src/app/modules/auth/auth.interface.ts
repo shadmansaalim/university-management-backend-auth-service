@@ -1,5 +1,6 @@
-// Login User Argument Type
+// Login User Response type
 export type ILoginUser = {
-  id: string;
-  password: string;
+  accessToken: string;
+  refreshToken: string;
+  needsPasswordChange: boolean;
 };
