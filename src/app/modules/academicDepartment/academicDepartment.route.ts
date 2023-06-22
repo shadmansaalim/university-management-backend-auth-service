@@ -1,5 +1,7 @@
 // Imports
 import express from 'express';
+import { ENUM_USER_ROLES } from '../../../enums/users';
+import authGuard from '../../middlewares/authGuard';
 import validateRequest from '../../middlewares/validateRequest';
 import { AcademicDepartmentController } from './academicDepartment.controller';
 import { AcademicDepartmentValidation } from './academicDepartment.validation';
@@ -8,15 +10,34 @@ import { AcademicDepartmentValidation } from './academicDepartment.validation';
 const router = express.Router();
 
 // API Endpoints
-router.get('/:id', AcademicDepartmentController.getSingleDepartment);
+router.get(
+  '/:id',
+  authGuard(
+    ENUM_USER_ROLES.STUDENT,
+    ENUM_USER_ROLES.FACULTY,
+    ENUM_USER_ROLES.ADMIN,
+    ENUM_USER_ROLES.SUPER_ADMIN
+  ),
+  AcademicDepartmentController.getSingleDepartment
+);
 
-router.get('/', AcademicDepartmentController.getAllDepartments);
+router.get(
+  '/',
+  authGuard(
+    ENUM_USER_ROLES.STUDENT,
+    ENUM_USER_ROLES.FACULTY,
+    ENUM_USER_ROLES.ADMIN,
+    ENUM_USER_ROLES.SUPER_ADMIN
+  ),
+  AcademicDepartmentController.getAllDepartments
+);
 
 router.post(
   '/create-academic-department',
   validateRequest(
     AcademicDepartmentValidation.createAcademicDepartmentZodSchema
   ),
+  authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
   AcademicDepartmentController.createDepartment
 );
 
@@ -25,9 +46,14 @@ router.patch(
   validateRequest(
     AcademicDepartmentValidation.updateAcademicDepartmentZodSchema
   ),
+  authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
   AcademicDepartmentController.updateSingleDepartment
 );
 
-router.delete('/:id', AcademicDepartmentController.deleteSingleDepartment);
+router.delete(
+  '/:id',
+  authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
+  AcademicDepartmentController.deleteSingleDepartment
+);
 
 export const AcademicDepartmentRoutes = router;

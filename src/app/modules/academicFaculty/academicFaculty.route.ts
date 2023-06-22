@@ -42,21 +42,13 @@ router.post(
 router.patch(
   '/:id',
   validateRequest(AcademicFacultyValidation.updateAcademicFacultyZodSchema),
-  authGuard(
-    ENUM_USER_ROLES.FACULTY,
-    ENUM_USER_ROLES.ADMIN,
-    ENUM_USER_ROLES.SUPER_ADMIN
-  ),
+  authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
   AcademicFacultyController.updateSingleFaculty
 );
 
 router.delete(
   '/:id',
-  authGuard(
-    ENUM_USER_ROLES.FACULTY,
-    ENUM_USER_ROLES.ADMIN,
-    ENUM_USER_ROLES.SUPER_ADMIN
-  ),
+  authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
   AcademicFacultyController.deleteSingleFaculty
 );
 

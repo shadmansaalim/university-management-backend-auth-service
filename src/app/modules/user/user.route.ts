@@ -13,21 +13,21 @@ const router = express.Router();
 router.post(
   '/create-student',
   validateRequest(UserValidation.createStudentZodSchema),
-  authGuard(ENUM_USER_ROLES.ADMIN),
+  authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
   UserController.createStudent
 );
 
 router.post(
   '/create-faculty',
   validateRequest(UserValidation.createFacultyZodSchema),
-  authGuard(ENUM_USER_ROLES.ADMIN),
+  authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
   UserController.createFaculty
 );
 
 router.post(
   '/create-admin',
   validateRequest(UserValidation.createAdminZodSchema),
-  authGuard(ENUM_USER_ROLES.ADMIN),
+  authGuard(ENUM_USER_ROLES.SUPER_ADMIN),
   UserController.createAdmin
 );
 
