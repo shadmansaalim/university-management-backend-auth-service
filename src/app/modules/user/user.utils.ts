@@ -1,14 +1,9 @@
 // Imports
+import { ENUM_USER_ROLES } from '../../../enums/users';
 import { ConditionalOptions } from '../../../interfaces/common';
 import { IRolePossibleValues } from './user.interface';
 import { User } from './user.model';
-
-// User Roles Mapper roles -> char
-const RoleMapChar = {
-  student: 'S',
-  faculty: 'F',
-  admin: 'A',
-};
+import { UserConstants } from './user.constant';
 
 // Function to find last id
 const findLastUserId = async (payload: string): Promise<string | undefined> => {
@@ -43,10 +38,10 @@ export const generateUserId = async <T extends keyof IRolePossibleValues>(
   const currentId = parseInt(lastFiveDigitsOfLastUserId) + 1;
 
   // First char of the ID based on roles
-  const userIdFirstChar = RoleMapChar[userRole];
+  const userIdFirstChar = UserConstants.userRoleShortCodes[userRole];
 
   // Add formats to the main part of ID based on roles
-  if (userRole === 'student' && academicSemester[0]) {
+  if (userRole === ENUM_USER_ROLES.STUDENT && academicSemester[0]) {
     // Student Last two digits of academic semester year
     const studentLastTwoDigitsOfAcademicSemesterYear =
       academicSemester[0].year.substring(2);

@@ -13,6 +13,7 @@ import { IFaculty } from '../faculty/faculty.interface';
 import { Faculty } from '../faculty/faculty.model';
 import { IAdmin } from '../admin/admin.interface';
 import { Admin } from '../admin/admin.model';
+import { ENUM_USER_ROLES } from '../../../enums/users';
 
 // Function to create a student in database
 const createStudent = async (
@@ -23,7 +24,7 @@ const createStudent = async (
   let newUserData = null;
 
   // Set user role
-  user.role = 'student';
+  user.role = ENUM_USER_ROLES.STUDENT;
 
   // Assigning Default Password if not password
   if (!user.password) {
@@ -113,7 +114,7 @@ const createFaculty = async (
   let newUserData = null;
 
   // Set user role
-  user.role = 'faculty';
+  user.role = ENUM_USER_ROLES.FACULTY;
 
   // Assigning Default Password if not password
   if (!user.password) {
@@ -194,7 +195,7 @@ const createAdmin = async (
   let newUserData = null;
 
   // Set user role
-  user.role = 'admin';
+  user.role = ENUM_USER_ROLES.ADMIN;
 
   // Assigning Default Password if not password
   if (!user.password) {

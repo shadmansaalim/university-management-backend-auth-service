@@ -1,9 +1,11 @@
-// Imports
-import { IUserRole } from './user.interface';
-
-// User Roles
-const userRoles: IUserRole[] = ['student', 'faculty', 'admin'];
+// User Role Short Codes
+const userRoleShortCodes = {
+  super_admin: 'SA',
+  admin: 'A',
+  student: 'S',
+  faculty: 'F',
+};
 
 export const UserConstants = {
-  userRoles,
+  userRoleShortCodes,
 };

@@ -7,14 +7,12 @@ import { Types } from 'mongoose';
 import { IStudent } from '../student/student.interface';
 import { IFaculty } from '../faculty/faculty.interface';
 import { IAdmin } from '../admin/admin.interface';
-
-// User Role
-export type IUserRole = 'student' | 'faculty' | 'admin';
+import { ENUM_USER_ROLES } from '../../../enums/users';
 
 // User Interface
 export type IUser = {
   id: string;
-  role: IUserRole;
+  role: ENUM_USER_ROLES;
   password: string;
   needsPasswordChange: boolean;
   student?: Types.ObjectId | IStudent;

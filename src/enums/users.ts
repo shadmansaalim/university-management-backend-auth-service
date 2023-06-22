@@ -7,3 +7,11 @@ export enum ENUM_USER_ROLES {
   STUDENT = 'student',
   FACULTY = 'faculty',
 }
+
+// Enum User Roles Short Code
+export enum ENUM_USER_ROLES_SHORT_CODE {
+  SUPER_ADMIN = 'SA',
+  ADMIN = 'A',
+  STUDENT = 'S',
+  FACULTY = 'F',
+}
