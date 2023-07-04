@@ -15,6 +15,7 @@ export type IUser = {
   role: ENUM_USER_ROLES;
   password: string;
   needsPasswordChange: boolean;
+  passwordChangedAt?: Date;
   student?: Types.ObjectId | IStudent;
   faculty?: Types.ObjectId | IFaculty;
   admin?: Types.ObjectId | IAdmin;

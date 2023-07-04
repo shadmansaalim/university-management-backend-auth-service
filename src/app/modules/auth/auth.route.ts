@@ -1,5 +1,7 @@
 // Imports
 import express from 'express';
+import { ENUM_USER_ROLES } from '../../../enums/users';
+import authGuard from '../../middlewares/authGuard';
 import validateRequest from '../../middlewares/validateRequest';
 import { AuthController } from './auth.controller';
 import { AuthValidation } from './auth.validation';
@@ -18,6 +20,18 @@ router.post(
   '/refresh-token',
   validateRequest(AuthValidation.refreshTokenZodSchema),
   AuthController.refreshToken
+);
+
+router.post(
+  '/change-password',
+  validateRequest(AuthValidation.changePasswordZodSchema),
+  authGuard(
+    ENUM_USER_ROLES.SUPER_ADMIN,
+    ENUM_USER_ROLES.ADMIN,
+    ENUM_USER_ROLES.FACULTY,
+    ENUM_USER_ROLES.STUDENT
+  ),
+  AuthController.changePassword
 );
 
 export const AuthRoutes = router;

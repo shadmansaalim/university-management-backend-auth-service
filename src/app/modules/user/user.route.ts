@@ -13,7 +13,6 @@ const router = express.Router();
 router.post(
   '/create-student',
   validateRequest(UserValidation.createStudentZodSchema),
-  authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
   UserController.createStudent
 );
 

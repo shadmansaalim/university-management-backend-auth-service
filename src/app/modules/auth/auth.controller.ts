@@ -37,7 +37,6 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
 
 // Function for refresh token
 const refreshToken = catchAsync(async (req: Request, res: Response) => {
-  // Getting login data
   const { refreshToken } = req.cookies;
   const result = await AuthService.refreshToken(refreshToken);
 
@@ -57,7 +56,26 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Function for change password
+const changePassword = catchAsync(async (req: Request, res: Response) => {
+  // User
+  const user = req.user;
+
+  // Getting password data
+  const { ...passwordData } = req.body;
+
+  await AuthService.changePassword(user, passwordData);
+
+  // Sending API Response
+  sendResponse<IRefreshTokenResponse>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Password changed successfully.',
+  });
+});
+
 export const AuthController = {
   loginUser,
   refreshToken,
+  changePassword,
 };
