@@ -54,9 +54,9 @@ const getAllSemesters = async (
 
 // GET Single Semester Function
 const getSingleSemester = async (
-  payload: string
+  id: string
 ): Promise<IAcademicSemester | null> => {
-  const result = await AcademicSemester.findById(payload);
+  const result = await AcademicSemester.findById(id);
   return result;
 };
 
