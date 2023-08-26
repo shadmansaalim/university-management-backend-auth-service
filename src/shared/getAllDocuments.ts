@@ -55,8 +55,8 @@ const getAllDocuments = async (
     ? { $and: searchFilterConditions }
     : {};
 
-  // Documents
-  let result = await model
+  // Base Query object that stores the query
+  const baseQuery = model
     .find(findConditions)
     .sort(sortingCondition)
     .skip(skip)
@@ -64,19 +64,14 @@ const getAllDocuments = async (
 
   // Checking if fields needs to be populated
   if (fieldsToPopulate && fieldsToPopulate.length) {
-    const query = model
-      .find(findConditions)
-      .sort(sortingCondition)
-      .skip(skip)
-      .limit(limit);
-
-    // Populate the specified fields
+    // Chain the populate calls for each field
     fieldsToPopulate.forEach(field => {
-      query.populate(field);
+      baseQuery.populate(field);
     });
-
-    result = await query.exec();
   }
+
+  // Documents
+  const result = await baseQuery.exec();
 
   // Total Documents in Database matching the condition
   const total = await model.countDocuments(findConditions);
