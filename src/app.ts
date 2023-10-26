@@ -1,25 +1,45 @@
 // Imports
-import express, { Application, Request, Response } from 'express'
-import cors from 'cors'
+import express, { Application, NextFunction, Request, Response } from 'express';
+import cors from 'cors';
+import globalErrorHandler from './app/middlewares/globalErrorHandler';
 
 // Application Routes
-import userRoutes from './app/modules/user/user.route'
+import routes from './app/routes';
+import httpStatus from 'http-status';
+import cookieParser from 'cookie-parser';
 
 // Express App
-const app: Application = express()
+const app: Application = express();
 
 // Using cors
-app.use(cors())
+app.use(cors());
 
 // Parser
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/v1/users', userRoutes)
+app.use(cookieParser());
 
-// Hello World GET API for TESTING
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!')
-})
+// App using the routes
+app.use('/api/v1', routes);
 
-export default app
+// Global Error Handler
+app.use(globalErrorHandler);
+
+// Handle NOT FOUND Route
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.status(httpStatus.NOT_FOUND).json({
+    success: false,
+    message: 'Not Found.',
+    errorMessages: [
+      {
+        path: req.originalUrl,
+        message: "API Route doesn't exists.",
+      },
+    ],
+  });
+
+  next();
+});
+
+export default app;

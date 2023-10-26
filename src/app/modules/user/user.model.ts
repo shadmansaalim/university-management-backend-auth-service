@@ -1,12 +1,14 @@
-// Imports
-import { Schema, Model, model } from 'mongoose'
-import { IUser } from './user.interface'
+/* eslint-disable  @typescript-eslint/no-this-alias */
 
-// User Model Type
-type UserModel = Model<IUser, object>
+// Imports
+import { Schema, model } from 'mongoose';
+import { IUser, UserModel } from './user.interface';
+import bcrypt from 'bcrypt';
+import config from '../../../config';
+import { ENUM_USER_ROLES } from '../../../enums/users';
 
 // User Schema
-const userSchema = new Schema<IUser>(
+const userSchema = new Schema<IUser, UserModel>(
   {
     id: {
       type: String,
@@ -16,16 +18,78 @@ const userSchema = new Schema<IUser>(
     role: {
       type: String,
       required: true,
+      enum: ENUM_USER_ROLES,
     },
     password: {
       type: String,
       required: true,
+      select: 0,
+    },
+    needsPasswordChange: {
+      type: Boolean,
+      default: true,
+    },
+    passwordChangedAt: {
+      type: Date,
+    },
+    student: {
+      type: Schema.Types.ObjectId,
+      ref: 'Student',
+    },
+    faculty: {
+      type: Schema.Types.ObjectId,
+      ref: 'Faculty',
+    },
+    admin: {
+      type: Schema.Types.ObjectId,
+      ref: 'Admin',
     },
   },
   {
     timestamps: true,
+    toJSON: {
+      virtuals: true,
+    },
   }
-)
+);
+
+// Static Method to check whether user exists or not
+userSchema.statics.exists = async function (
+  id: string
+): Promise<Pick<
+  IUser,
+  'id' | 'role' | 'password' | 'needsPasswordChange'
+> | null> {
+  return await User.findOne(
+    { id },
+    { id: 1, role: 1, password: 1, needsPasswordChange: 1 }
+  ).lean();
+};
+
+// Static Method to check whether password matches or not
+userSchema.statics.isPasswordMatched = async function (
+  givenPassword: string,
+  savedPassword: string
+): Promise<boolean> {
+  return await bcrypt.compare(givenPassword, savedPassword);
+};
+
+// Pre Hook function to hash user password before saving in DB
+userSchema.pre('save', async function (next) {
+  // Hashing user password before saving
+  const user = this;
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_rounds)
+  );
+
+  // Saving password changed time if password is changed
+  if (user.needsPasswordChange === false) {
+    this.passwordChangedAt = new Date();
+  }
+
+  next();
+});
 
 // User Model
-export const User = model<IUser, UserModel>('User', userSchema)
+export const User = model<IUser, UserModel>('User', userSchema);
