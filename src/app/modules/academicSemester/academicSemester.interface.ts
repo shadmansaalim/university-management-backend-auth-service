@@ -40,7 +40,7 @@ export type IAcademicSemesterFilters = {
   searchTerm?: string;
 };
 
-export type IAcademicSemesterCreatedEvent = IAcademicSemester & {
+export type IAcademicSemesterEvent = IAcademicSemester & {
   id: string;
   isCurrent: boolean;
   createdAt: string;

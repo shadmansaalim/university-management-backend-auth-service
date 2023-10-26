@@ -10,27 +10,9 @@ import { ENUM_USER_ROLES } from '../../../enums/users';
 const router = express.Router();
 
 // API Endpoints
-router.get(
-  '/:id',
-  authGuard(
-    ENUM_USER_ROLES.STUDENT,
-    ENUM_USER_ROLES.FACULTY,
-    ENUM_USER_ROLES.ADMIN,
-    ENUM_USER_ROLES.SUPER_ADMIN
-  ),
-  AcademicSemesterController.getSingleSemester
-);
+router.get('/:id', AcademicSemesterController.getSingleSemester);
 
-router.get(
-  '/',
-  authGuard(
-    ENUM_USER_ROLES.STUDENT,
-    ENUM_USER_ROLES.FACULTY,
-    ENUM_USER_ROLES.ADMIN,
-    ENUM_USER_ROLES.SUPER_ADMIN
-  ),
-  AcademicSemesterController.getAllSemesters
-);
+router.get('/', AcademicSemesterController.getAllSemesters);
 
 router.post(
   '/create-academic-semester',

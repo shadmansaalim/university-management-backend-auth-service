@@ -10,27 +10,9 @@ import { AcademicDepartmentValidation } from './academicDepartment.validation';
 const router = express.Router();
 
 // API Endpoints
-router.get(
-  '/:id',
-  authGuard(
-    ENUM_USER_ROLES.STUDENT,
-    ENUM_USER_ROLES.FACULTY,
-    ENUM_USER_ROLES.ADMIN,
-    ENUM_USER_ROLES.SUPER_ADMIN
-  ),
-  AcademicDepartmentController.getSingleDepartment
-);
+router.get('/:id', AcademicDepartmentController.getSingleDepartment);
 
-router.get(
-  '/',
-  authGuard(
-    ENUM_USER_ROLES.STUDENT,
-    ENUM_USER_ROLES.FACULTY,
-    ENUM_USER_ROLES.ADMIN,
-    ENUM_USER_ROLES.SUPER_ADMIN
-  ),
-  AcademicDepartmentController.getAllDepartments
-);
+router.get('/', AcademicDepartmentController.getAllDepartments);
 
 router.post(
   '/create-academic-department',
