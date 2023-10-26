@@ -34,6 +34,16 @@
             "date": 1698318122510,
             "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-backend-auth-service/logs/winston/successes/UM-2023-26-10-22-success.log",
             "hash": "b98ac0bad0467b299200b8b9bec7093f0a92e539b1aa22a358fe63af6b11d62a"
+        },
+        {
+            "date": 1698332290069,
+            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-backend-auth-service/logs/winston/successes/UM-2023-27-10-01-success.log",
+            "hash": "5e9ea67416b6c99902f415edfd552cb6a8233b3edb102bda940491f3cbfff8e4"
+        },
+        {
+            "date": 1698332507949,
+            "name": "/Users/saalimshadman/Desktop/UniversityManagement/university-management-backend-auth-service/logs/winston/successes/UM-2023-27-10-02-success.log",
+            "hash": "104dcb771f42021f711243fd560bda408064b1ea15f3a82593e25bd93ce545d6"
         }
     ],
     "hashType": "sha256"

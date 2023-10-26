@@ -6,6 +6,7 @@ import { IAcademicFaculty } from '../academicFaculty/academicFaculty.interface';
 export type IAcademicDepartment = {
   title: string;
   academicFaculty: Types.ObjectId | IAcademicFaculty;
+  syncId: string;
 };
 
 // Academic Department Model type

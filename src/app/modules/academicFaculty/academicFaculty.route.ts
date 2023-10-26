@@ -10,30 +10,12 @@ import { AcademicFacultyValidation } from './academicFaculty.validation';
 const router = express.Router();
 
 // API Endpoints
-router.get(
-  '/:id',
-  authGuard(
-    ENUM_USER_ROLES.STUDENT,
-    ENUM_USER_ROLES.FACULTY,
-    ENUM_USER_ROLES.ADMIN,
-    ENUM_USER_ROLES.SUPER_ADMIN
-  ),
-  AcademicFacultyController.getSingleFaculty
-);
+router.get('/:id', AcademicFacultyController.getSingleFaculty);
 
-router.get(
-  '/',
-  authGuard(
-    ENUM_USER_ROLES.STUDENT,
-    ENUM_USER_ROLES.FACULTY,
-    ENUM_USER_ROLES.ADMIN,
-    ENUM_USER_ROLES.SUPER_ADMIN
-  ),
-  AcademicFacultyController.getAllFaculties
-);
+router.get('/', AcademicFacultyController.getAllFaculties);
 
 router.post(
-  '/create-academic-faculty',
+  '/',
   validateRequest(AcademicFacultyValidation.createAcademicFacultyZodSchema),
   authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
   AcademicFacultyController.createFaculty
