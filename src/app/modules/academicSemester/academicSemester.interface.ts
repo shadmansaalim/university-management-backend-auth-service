@@ -25,10 +25,11 @@ export type IAcademicSemesterMonths =
 // Academic Semester Interface
 export type IAcademicSemester = {
   title: IAcademicSemesterTitles;
-  year: string;
+  year: number;
   code: IAcademicSemesterCodes;
   startMonth: IAcademicSemesterMonths;
   endMonth: IAcademicSemesterMonths;
+  syncId: string;
 };
 
 // Academic Semester Model Type
@@ -37,4 +38,11 @@ export type AcademicSemesterModel = Model<IAcademicSemester>;
 // Academic Semester Filters Type
 export type IAcademicSemesterFilters = {
   searchTerm?: string;
+};
+
+export type IAcademicSemesterCreatedEvent = IAcademicSemester & {
+  id: string;
+  isCurrent: boolean;
+  createdAt: string;
+  updatedAt: string;
 };

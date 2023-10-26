@@ -1,6 +1,7 @@
 // Imports
 import {
   IAcademicSemester,
+  IAcademicSemesterCreatedEvent,
   IAcademicSemesterFilters,
 } from './academicSemester.interface';
 import { AcademicSemester } from './academicSemester.model';
@@ -93,10 +94,25 @@ const deleteSingleSemester = async (
   return result;
 };
 
+const createSemesterFromEvent = async (
+  event: IAcademicSemesterCreatedEvent
+): Promise<void> => {
+  const { id, title, year, code, startMonth, endMonth } = event;
+  await AcademicSemester.create({
+    title,
+    year,
+    code,
+    startMonth,
+    endMonth,
+    syncId: id,
+  });
+};
+
 export const AcademicSemesterService = {
   createSemester,
   getAllSemesters,
   getSingleSemester,
   updateSingleSemester,
   deleteSingleSemester,
+  createSemesterFromEvent,
 };
