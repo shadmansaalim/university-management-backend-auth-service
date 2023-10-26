@@ -4,6 +4,7 @@ import app from './app';
 import config from './config';
 import { logger, errorLogger } from './shared/logger';
 import { Server } from 'http';
+import { RedisClient } from './shared/redis';
 
 // Handling Uncaught Exception Errors
 process.on('uncaughtException', error => {
@@ -17,6 +18,7 @@ let server: Server;
 // Database connection
 async function bootstrap() {
   try {
+    await RedisClient.connect();
     await mongoose.connect(config.database_url as string);
     logger.info(`Database connection successful`);
 
