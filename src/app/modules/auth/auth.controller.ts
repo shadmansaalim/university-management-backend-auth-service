@@ -13,26 +13,13 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
   const { ...loginData } = req.body;
   const result = await AuthService.loginUser(loginData);
 
-  // Separating refreshToken from result data
-  const { refreshToken, ...others } = result;
-
-  // Set refresh token into cookie
-  const cookieOptions = {
-    secure: config.env === 'production',
-    httpOnly: true,
-  };
-  res.cookie('refreshToken', refreshToken, cookieOptions);
-
   // Sending API Response
-  sendResponse<Pick<ILoginUserResponse, 'accessToken' | 'needsPasswordChange'>>(
-    res,
-    {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: 'User logged in successfully.',
-      data: others,
-    }
-  );
+  sendResponse<ILoginUserResponse>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User logged in successfully.',
+    data: result,
+  });
 });
 
 // Function for refresh token
