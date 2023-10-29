@@ -193,6 +193,15 @@ const createFaculty = async (
       ],
     });
   }
+
+  // Publishing data in redis
+  if (newUserData) {
+    await RedisClient.publish(
+      UserConstants.event_faculty_created,
+      JSON.stringify(newUserData.faculty)
+    );
+  }
+
   return newUserData;
 };
 
@@ -271,6 +280,7 @@ const createAdmin = async (
       ],
     });
   }
+
   return newUserData;
 };
 
