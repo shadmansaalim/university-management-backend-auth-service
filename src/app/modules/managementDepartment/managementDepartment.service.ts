@@ -64,9 +64,16 @@ const updateSingleManagementDepartment = async (
   return result;
 };
 
+const deleteManagementDepartment = async (
+  id: string
+): Promise<IManagementDepartment | null> => {
+  return await ManagementDepartment.findByIdAndDelete(id);
+};
+
 export const ManagementDepartmentService = {
   createManagementDepartment,
   getAllManagementDepartments,
   getSingleManagementDepartment,
   updateSingleManagementDepartment,
+  deleteManagementDepartment,
 };

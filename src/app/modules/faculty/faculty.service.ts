@@ -9,6 +9,7 @@ import { FacultyConstants } from './faculty.constant';
 import { Faculty } from './faculty.model';
 import mongoose from 'mongoose';
 import { User } from '../user/user.model';
+import { RedisClient } from '../../../shared/redis';
 
 // GET All Faculties Function
 const getAllFaculties = async (
@@ -76,6 +77,15 @@ const updateSingleFaculty = async (
   })
     .populate('academicDepartment')
     .populate('academicFaculty');
+
+  // Publishing data to redis
+  if (result) {
+    await RedisClient.publish(
+      FacultyConstants.event_faculty_updated,
+      JSON.stringify(result)
+    );
+  }
+
   return result;
 };
 

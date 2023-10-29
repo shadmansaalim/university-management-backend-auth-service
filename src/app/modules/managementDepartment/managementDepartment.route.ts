@@ -13,22 +13,17 @@ const router = express.Router();
 
 router.get(
   '/:id',
-  authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
   ManagementDepartmentController.getSingleManagementDepartment
 );
 
-router.get(
-  '/',
-  authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
-  ManagementDepartmentController.getAllManagementDepartments
-);
+router.get('/', ManagementDepartmentController.getAllManagementDepartments);
 
 router.post(
-  '/create-management',
+  '/create-department',
   validateRequest(
     ManagementDepartmentValidation.createManagementDepartmentZodSchema
   ),
-  authGuard(ENUM_USER_ROLES.SUPER_ADMIN),
+  authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
   ManagementDepartmentController.createManagementDepartment
 );
 
@@ -37,8 +32,14 @@ router.patch(
   validateRequest(
     ManagementDepartmentValidation.updateManagementDepartmentZodSchema
   ),
-  authGuard(ENUM_USER_ROLES.SUPER_ADMIN),
+  authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
   ManagementDepartmentController.updateSingleManagementDepartment
+);
+
+router.delete(
+  '/:id',
+  authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
+  ManagementDepartmentController.deleteManagementDepartment
 );
 
 export const ManagementDepartmentRoutes = router;

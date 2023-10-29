@@ -5,11 +5,13 @@ import { DataConstants } from '../../../constants/data';
 // Validation of API request using ZOD
 const updateStudentZodSchema = z.object({
   body: z.object({
-    name: z.object({
-      firstName: z.string().optional(),
-      lastName: z.string().optional(),
-      middleName: z.string().optional(),
-    }),
+    name: z
+      .object({
+        firstName: z.string().optional(),
+        lastName: z.string().optional(),
+        middleName: z.string().optional(),
+      })
+      .optional(),
     gender: z
       .enum([...DataConstants.gender] as [string, ...string[]])
       .optional(),

@@ -9,6 +9,7 @@ import httpStatus from 'http-status';
 import getAllDocuments from '../../../shared/getAllDocuments';
 import mongoose from 'mongoose';
 import { User } from '../user/user.model';
+import { RedisClient } from '../../../shared/redis';
 
 // GET All Students Function
 const getAllStudents = async (
@@ -92,6 +93,15 @@ const updateSingleStudent = async (
     .populate('academicSemester')
     .populate('academicDepartment')
     .populate('academicFaculty');
+
+  // Publishing data to redis
+  if (result) {
+    await RedisClient.publish(
+      StudentConstants.event_student_updated,
+      JSON.stringify(result)
+    );
+  }
+
   return result;
 };
 

@@ -25,8 +25,12 @@ const fieldsToPopulate = [
   'academicFaculty',
 ];
 
+// Event name of publishing student updated data in redis
+const event_student_updated = 'student.updated';
+
 export const StudentConstants = {
   searchableFields,
   filterableFields,
   fieldsToPopulate,
+  event_student_updated,
 };

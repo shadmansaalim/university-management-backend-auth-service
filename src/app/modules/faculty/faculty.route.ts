@@ -10,36 +10,14 @@ import { ENUM_USER_ROLES } from '../../../enums/users';
 const router = express.Router();
 
 // API Endpoints
-router.get(
-  '/:id',
-  authGuard(
-    ENUM_USER_ROLES.STUDENT,
-    ENUM_USER_ROLES.FACULTY,
-    ENUM_USER_ROLES.ADMIN,
-    ENUM_USER_ROLES.SUPER_ADMIN
-  ),
-  FacultyController.getSingleFaculty
-);
+router.get('/:id', FacultyController.getSingleFaculty);
 
-router.get(
-  '/',
-  authGuard(
-    ENUM_USER_ROLES.STUDENT,
-    ENUM_USER_ROLES.FACULTY,
-    ENUM_USER_ROLES.ADMIN,
-    ENUM_USER_ROLES.SUPER_ADMIN
-  ),
-  FacultyController.getAllFaculties
-);
+router.get('/', FacultyController.getAllFaculties);
 
 router.patch(
   '/:id',
   validateRequest(FacultyValidation.updateFacultyZodSchema),
-  authGuard(
-    ENUM_USER_ROLES.FACULTY,
-    ENUM_USER_ROLES.ADMIN,
-    ENUM_USER_ROLES.SUPER_ADMIN
-  ),
+  authGuard(ENUM_USER_ROLES.ADMIN, ENUM_USER_ROLES.SUPER_ADMIN),
   FacultyController.updateSingleFaculty
 );
 

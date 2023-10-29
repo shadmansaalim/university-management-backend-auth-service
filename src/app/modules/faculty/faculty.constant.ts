@@ -22,8 +22,12 @@ const filterableFields = [
 // Fields to populate in faculty data
 const fieldsToPopulate = ['academicDepartment', 'academicFaculty'];
 
+// Event name of publishing faculty updated data in redis
+const event_faculty_updated = 'faculty.updated';
+
 export const FacultyConstants = {
   searchableFields,
   filterableFields,
   fieldsToPopulate,
+  event_faculty_updated,
 };
