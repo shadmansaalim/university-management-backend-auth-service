@@ -1,5 +1,5 @@
 // Searching and Filtering  Fields
-const filterableFields = ['searchTerm', 'title'];
+const filterableFields = ['searchTerm', 'title', 'syncId'];
 
 // Searchable fields to GET academic faculties
 const searchableFields = ['title'];

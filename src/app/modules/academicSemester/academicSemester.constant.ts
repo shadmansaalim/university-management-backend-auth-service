@@ -37,7 +37,7 @@ const titleCodeMapper: { [key: string]: string } = {
 };
 
 // Searching and Filtering  Fields
-const filterableFields = ['searchTerm', 'title', 'year', 'code'];
+const filterableFields = ['searchTerm', 'title', 'year', 'code', 'syncId'];
 
 // Searchable fields to GET academic semesters
 const searchableFields = ['title', 'year', 'code'];

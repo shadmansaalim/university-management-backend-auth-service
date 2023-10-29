@@ -14,6 +14,8 @@ import { Faculty } from '../faculty/faculty.model';
 import { IAdmin } from '../admin/admin.interface';
 import { Admin } from '../admin/admin.model';
 import { ENUM_USER_ROLES } from '../../../enums/users';
+import { RedisClient } from '../../../shared/redis';
+import { UserConstants } from './user.constant';
 
 // Function to create a student in database
 const createStudent = async (
@@ -100,6 +102,14 @@ const createStudent = async (
         },
       ],
     });
+  }
+
+  // Publishing data in redis
+  if (newUserData) {
+    await RedisClient.publish(
+      UserConstants.event_student_created,
+      JSON.stringify(newUserData.student)
+    );
   }
 
   return newUserData;

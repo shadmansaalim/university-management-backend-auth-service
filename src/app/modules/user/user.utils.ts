@@ -43,8 +43,9 @@ export const generateUserId = async <T extends keyof IRolePossibleValues>(
   // Add formats to the main part of ID based on roles
   if (userRole === ENUM_USER_ROLES.STUDENT && academicSemester[0]) {
     // Student Last two digits of academic semester year
-    const studentLastTwoDigitsOfAcademicSemesterYear =
-      academicSemester[0].year.substring(2);
+    const studentLastTwoDigitsOfAcademicSemesterYear = academicSemester[0].year
+      .toString()
+      .substring(2);
 
     // Student academic semester year code
     const studentAcademicSemesterCode = academicSemester[0].code;
