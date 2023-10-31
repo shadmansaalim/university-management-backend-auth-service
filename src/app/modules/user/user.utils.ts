@@ -18,18 +18,14 @@ const findLastUserId = async (payload: string): Promise<string | undefined> => {
 };
 
 // Function to generate user id
-export const generateUserId = async <T extends keyof IRolePossibleValues>(
-  userRole: T,
-  ...academicSemester: ConditionalOptions<IRolePossibleValues, T>
+export const generateUserId = async (
+  role: ENUM_USER_ROLES
 ): Promise<string> => {
-  // User Id
-  let userId = '';
-
   // First user id for the requested role in database
   const defaultId = (0).toString().padStart(5, '0');
 
   // Getting last user id and keeping it in lastUserId variable otherwise storing default id
-  const lastUserId = (await findLastUserId(userRole)) || defaultId;
+  const lastUserId = (await findLastUserId(role)) || defaultId;
 
   // Getting last 5 digits of last user id
   const lastFiveDigitsOfLastUserId = lastUserId.substr(lastUserId.length - 5);
@@ -38,27 +34,9 @@ export const generateUserId = async <T extends keyof IRolePossibleValues>(
   const currentId = parseInt(lastFiveDigitsOfLastUserId) + 1;
 
   // First char of the ID based on roles
-  const userIdFirstChar = UserConstants.userRoleShortCodes[userRole];
+  const userIdFirstChar = UserConstants.userRoleShortCodes[role];
 
-  // Add formats to the main part of ID based on roles
-  if (userRole === ENUM_USER_ROLES.STUDENT && academicSemester[0]) {
-    // Student Last two digits of academic semester year
-    const studentLastTwoDigitsOfAcademicSemesterYear = academicSemester[0].year
-      .toString()
-      .substring(2);
-
-    // Student academic semester year code
-    const studentAcademicSemesterCode = academicSemester[0].code;
-
-    // Student Format and add current id to add starting '0's
-    userId =
-      userIdFirstChar +
-      studentLastTwoDigitsOfAcademicSemesterYear +
-      studentAcademicSemesterCode +
-      currentId.toString().padStart(5, '0');
-  } else {
-    userId = userIdFirstChar + currentId.toString().padStart(5, '0');
-  }
+  const userId = userIdFirstChar + currentId.toString().padStart(5, '0');
 
   return userId;
 };

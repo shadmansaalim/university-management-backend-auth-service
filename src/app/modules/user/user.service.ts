@@ -46,7 +46,7 @@ const createStudent = async (
     session.startTransaction();
 
     // Generating student id and storing it;
-    const studentId = await generateUserId(user.role, academicSemester);
+    const studentId = await generateUserId(user.role);
     student.id = studentId;
 
     //Creating new student
